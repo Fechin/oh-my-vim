@@ -35,6 +35,8 @@ set wildmenu
 set mousemodel=popup
 set shortmess=atI
 set cul
+set history=500
+set magic
 
 autocmd InsertEnter * se cul
 let g:rehash256 = 1
@@ -145,7 +147,7 @@ endfunc
 
 
 
-"""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""
 "--> 偏好设置
 """""""""""""""""""""""""""""""""""""
 if has("autocmd")
@@ -170,3 +172,24 @@ set showmatch
 
 let NERDTreeIgnore=['\.pyc']
 set matchpairs=(:),{:},[:],<:>
+
+
+""""""""""""""""""""""""""""""""
+"--> 图形界面配置
+"""""""""""""""""""""""""""""""""""""
+if has('gui_running')
+	set guioptions-=T " 隐藏工具栏
+	set guioptions-=m " 隐藏菜单栏
+	set guioptions-=L " 隐藏左侧滚动条
+	set showtabline=2 " 显示Tab栏
+	set guioptions+=r	"显示gui右边滚动条
+	
+	if has("gui_macvim")
+		set imdisable	"Set input method off
+		set autochdir	"自动切换到文件当前目录
+
+	endif
+else
+	set ambiwidth=single
+	syntax enable
+endif
