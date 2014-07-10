@@ -3,6 +3,8 @@
 """""""""""""""""""""""""""""""""""""
 set nocompatible
 filetype off
+"let $VIMRUNTIME="~/.vim"
+"set runtimepath=~/.vim
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -11,6 +13,9 @@ Plugin 'gmarik/vundle.git'
 Plugin 'Lokaltog/vim-powerline.git'
 Plugin 'vim-scripts/The-NERD-tree.git'
 Plugin 'mattn/emmet-vim.git'
+Plugin 'vim-scripts/python.vim--Vasiliev.git'
+Plugin 'vim-scripts/taglist.vim.git'
+Plugin 'vim-scripts/pythoncomplete.git'
 
 filetype plugin indent on
 
@@ -19,7 +24,7 @@ filetype plugin indent on
 """""""""""""""""""""""""""""""""""""
 "--> 基本设置
 """""""""""""""""""""""""""""""""""""
-"syntax on
+syntax on
 set hlsearch
 set incsearch
 set sw=4
@@ -37,6 +42,7 @@ set shortmess=atI
 set cul
 set history=500
 set magic
+set backspace=indent,eol,start
 
 autocmd InsertEnter * se cul
 let g:rehash256 = 1
@@ -147,7 +153,7 @@ endfunc
 
 
 
-""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""
 "--> 偏好设置
 """""""""""""""""""""""""""""""""""""
 if has("autocmd")
@@ -174,15 +180,17 @@ let NERDTreeIgnore=['\.pyc']
 set matchpairs=(:),{:},[:],<:>
 
 
-""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""
 "--> 图形界面配置
 """""""""""""""""""""""""""""""""""""
 if has('gui_running')
-	set guioptions-=T " 隐藏工具栏
-	set guioptions-=m " 隐藏菜单栏
-	set guioptions-=L " 隐藏左侧滚动条
-	set showtabline=2 " 显示Tab栏
-	set guioptions+=r	"显示gui右边滚动条
+    set guioptions-=m " 隐藏菜单栏
+    set guioptions-=t " 隐藏菜单栏中的撕下此菜单
+    set guioptions-=T " 隐藏工具栏
+    set guioptions-=L " 隐藏左侧滚动条
+    set guioptions-=r " 隐藏右侧滚动条
+    set guioptions-=b " 隐藏底部滚动条
+    set showtabline=0 " 隐藏Tab栏
 	
 	if has("gui_macvim")
 		set imdisable	"Set input method off
@@ -191,5 +199,18 @@ if has('gui_running')
 	endif
 else
 	set ambiwidth=single
-	syntax enable
 endif
+
+"""""""""""""""""""""""""""""""""""""
+"--> Python相关
+"""""""""""""""""""""""""""""""""""""
+set filetype=python
+au BufNewFile,BufRead *.py,*.pyw setf python
+set autoindent " same level indent
+set smartindent " next level indent
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+
+let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
+set ofu=syntaxcomplete#Complete
