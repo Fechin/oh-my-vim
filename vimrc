@@ -13,9 +13,9 @@ Plugin 'gmarik/vundle.git'
 Plugin 'Lokaltog/vim-powerline.git'
 Plugin 'vim-scripts/The-NERD-tree.git'
 Plugin 'mattn/emmet-vim.git'
-Plugin 'vim-scripts/python.vim--Vasiliev.git'
 Plugin 'vim-scripts/taglist.vim.git'
 Plugin 'vim-scripts/pythoncomplete.git'
+Plugin 'vim-scripts/Pydiction.git'
 
 filetype plugin indent on
 
