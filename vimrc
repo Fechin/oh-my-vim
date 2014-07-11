@@ -47,6 +47,7 @@ set backspace=indent,eol,start
 autocmd InsertEnter * se cul
 let g:rehash256 = 1
 colorscheme molokai
+"colorscheme Tomorrow-Night-Eighties
 set guifont=Droid\ Sans\ Mono\ 11
 
 " 设置文件编码和文件格式
