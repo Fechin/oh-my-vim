@@ -14,6 +14,6 @@ vim 配置，私人定制
 ```
 
 ```
-  :luginInstall
+  :PluginInstall
 ```
 
