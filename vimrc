@@ -3,22 +3,15 @@
 """""""""""""""""""""""""""""""""""""
 set nocompatible
 filetype off
-"let $VIMRUNTIME="~/.vim"
-"set runtimepath=~/.vim
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Plugin 'gmarik/vundle.git'
-Plugin 'Lokaltog/vim-powerline.git'
-Plugin 'vim-scripts/The-NERD-tree.git'
-Plugin 'mattn/emmet-vim.git'
-Plugin 'vim-scripts/taglist.vim.git'
-Plugin 'vim-scripts/pythoncomplete.git'
-Plugin 'vim-scripts/Pydiction.git'
 
 filetype plugin indent on
 
+let s:running_windows = has("win16") || has("win32") || has("win64")
+let s:running_macvim = has('gui_macvim')
 
 
 """""""""""""""""""""""""""""""""""""
@@ -47,8 +40,6 @@ set backspace=indent,eol,start
 autocmd InsertEnter * se cul
 let g:rehash256 = 1
 colorscheme molokai
-"colorscheme Tomorrow-Night-Eighties
-set guifont=Droid\ Sans\ Mono\ 11
 
 " 设置文件编码和文件格式
 set encoding=utf-8
@@ -82,7 +73,7 @@ nnoremap f :NERDTreeToggle
 "--> 新文件头
 """""""""""""""""""""""""""""""""""""
 autocmd BufNewFile *.sh,*.java,*.py exec ":call SetTitle()" 
-func SetTitle() 
+func! SetTitle() 
 	"如果文件类型为.sh文件 
 	if &filetype == 'sh' 
 		call setline(1,"\#!/bin/bash") 
@@ -202,16 +193,31 @@ else
 	set ambiwidth=single
 endif
 
-"""""""""""""""""""""""""""""""""""""
-"--> Python相关
-"""""""""""""""""""""""""""""""""""""
-set filetype=python
-au BufNewFile,BufRead *.py,*.pyw setf python
-set autoindent " same level indent
-set smartindent " next level indent
-set expandtab
-set shiftwidth=4
-set softtabstop=4
 
-let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
-set ofu=syntaxcomplete#Complete
+
+if exists("&guifont")
+  if has("mac")
+    set guifont=Monaco:h12
+  elseif has("unix")
+    if &guifont == ""
+      set guifont=Droid\ Sans\ Mono\ 13
+    endif
+  elseif has("win32")
+   set guifont=Consolas:h11,Courier\ New:h10
+  endif
+endif
+
+
+augroup reload_vimrc
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
+
+Plugin 'gmarik/vundle.git'                              " -- 插件管理工具
+Plugin 'Lokaltog/vim-powerline.git'                     " -- 状态栏 
+Plugin 'vim-scripts/The-NERD-tree.git'                  " -- 文件目录树
+Plugin 'mattn/emmet-vim.git'                            " -- HTML/CSS代码快速生成神器
+
+"command-t go to file
+"SnipMate 自动生成代码
