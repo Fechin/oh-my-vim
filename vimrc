@@ -39,7 +39,7 @@ set backspace=indent,eol,start
 
 autocmd InsertEnter * se cul
 let g:rehash256 = 1
-colorscheme molokai
+colorscheme molokai256
 
 " 设置文件编码和文件格式
 set encoding=utf-8
