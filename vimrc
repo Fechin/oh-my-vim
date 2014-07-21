@@ -1,8 +1,4 @@
-"""""""""""""""""""""""""""""""""""""
-"--> Vundle 插件管理
-"""""""""""""""""""""""""""""""""""""
 set nocompatible
-filetype off
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -52,8 +48,7 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 """""""""""""""""""""""""""""""""""""
 set laststatus=2
 set t_Co=256
-let g:Powerline_symbols = 'unicode'
-set encoding=utf8
+let g:Powerline_symbols = 'compatible'
 
 
 """""""""""""""""""""""""""""""""""""
@@ -171,6 +166,9 @@ set showmatch
 let NERDTreeIgnore=['\.pyc']
 set matchpairs=(:),{:},[:],<:>
 
+let g:user_emmet_leader_key = '<c-k>'
+let g:user_emmet_expandabbr_key = '<c-tab>'
+
 
 """""""""""""""""""""""""""""""""""""
 "--> 图形界面配置
@@ -214,10 +212,14 @@ augroup reload_vimrc
 augroup END
 
 
-Plugin 'gmarik/vundle.git'                              " -- 插件管理工具
-Plugin 'Lokaltog/vim-powerline.git'                     " -- 状态栏 
-Plugin 'vim-scripts/The-NERD-tree.git'                  " -- 文件目录树
-Plugin 'mattn/emmet-vim.git'                            " -- HTML/CSS代码快速生成神器
+"""""""""""""""""""""""""""""""""""""
+"--> Vundle 插件管理
+"""""""""""""""""""""""""""""""""""""
+Plugin 'gmarik/vundle'               " -- 插件管理工具
+Plugin 'Lokaltog/vim-powerline'      " -- 状态栏 
+Plugin 'vim-scripts/The-NERD-tree'   " -- 文件目录树
+Plugin 'mattn/emmet-vim'             " -- HTML/CSS代码快速生成神器
+Plugin 'ianva/vim-youdao-translater' " -- 有道翻译
 
 "command-t go to file
 "SnipMate 自动生成代码
