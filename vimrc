@@ -30,6 +30,7 @@ set mousemodel=popup
 set shortmess=atI
 set cul
 set history=500
+set showcmd
 set magic
 set backspace=indent,eol,start
 
