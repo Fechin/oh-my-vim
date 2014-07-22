@@ -166,9 +166,6 @@ set showmatch
 let NERDTreeIgnore=['\.pyc']
 set matchpairs=(:),{:},[:],<:>
 
-let g:user_emmet_leader_key = '<c-k>'
-let g:user_emmet_expandabbr_key = '<c-tab>'
-
 
 """""""""""""""""""""""""""""""""""""
 "--> 图形界面配置
@@ -219,7 +216,6 @@ Plugin 'gmarik/vundle'               " -- 插件管理工具
 Plugin 'Lokaltog/vim-powerline'      " -- 状态栏 
 Plugin 'vim-scripts/The-NERD-tree'   " -- 文件目录树
 Plugin 'mattn/emmet-vim'             " -- HTML/CSS代码快速生成神器
-Plugin 'ianva/vim-youdao-translater' " -- 有道翻译
 
 "command-t go to file
 "SnipMate 自动生成代码
