@@ -6,7 +6,7 @@ vim 配置，私人定制
 ### 安装
 
 ```
-  git clone https://github.com/Fechin/vim.git ~/.vim
+  git clone https://github.com/Fechin/oh-my-vim.git ~/.vim
 ```
 
 ```
