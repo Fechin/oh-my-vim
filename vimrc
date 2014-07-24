@@ -1,9 +1,9 @@
 set nocompatible
 
 set rtp+=~/.vim/bundle/vundle/
+let g:snippets_dir='~/.vim/snippets/'
+
 call vundle#rc()
-
-
 filetype plugin indent on
 
 let s:running_windows = has("win16") || has("win32") || has("win64")
@@ -36,7 +36,7 @@ set backspace=indent,eol,start
 
 autocmd InsertEnter * se cul
 let g:rehash256 = 1
-colorscheme molokai256
+colorscheme molokai
 
 " 设置文件编码和文件格式
 set encoding=utf-8
@@ -264,3 +264,4 @@ Plugin 'Lokaltog/vim-powerline'      " -- 状态栏
 Plugin 'vim-scripts/The-NERD-tree'   " -- 文件目录树
 Plugin 'mattn/emmet-vim'             " -- HTML/CSS代码快速生成神器
 Plugin 'kien/ctrlp.vim'              " -- 快速搜索文件
+Plugin 'msanders/snipmate.vim'       " -- 代码生成
