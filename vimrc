@@ -1,9 +1,10 @@
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣                                   
-" Dot vimrc 私人订制
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+" oh-my-vim .vimrc 私人订制
 "
 " Author : Fechin
 " E-mail : lihuoqingfly@163.com
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+" URL    : https://github.com/Fechin/oh-my-vim.git
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 
 set nocompatible
 
@@ -12,14 +13,11 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 filetype plugin indent on
 
-let s:running_windows = has("win32") || has("win64")
-let s:running_macvim = has('gui_macvim')
-
 let g:snippets_dir='~/.vim/snippets/'
 
 
 "--> 基本设置
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 syntax on
 set hlsearch
 set incsearch
@@ -53,17 +51,20 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
 
 "--> PowerLine
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 set laststatus=2
 set t_Co=256
 let g:Powerline_symbols = 'compatible'
 
 
 "--> vim-template
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let g:username = 'Fechin'
+let g:email = 'lihuoqingfly@163.com'
+let g:template_dir = '~/.vim/templates'
 
 "--> NERDTree
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 let NERDTreeAutoCenter=1
 let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
 let NERDTreeShowBookmarks=1
@@ -75,7 +76,7 @@ nnoremap f :NERDTreeToggle
 
 
 "--> 按键映射
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <C-w> <C-w>w
 
 map <F3> :NERDTreeToggle<CR>
@@ -83,7 +84,7 @@ imap <F3> <ESC> :NERDTreeToggle<CR>
 
 
 "--> 按按F5编译运
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
     exec "w"
@@ -121,7 +122,7 @@ endfunc
 
 
 "--> 偏好设置
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 if has("autocmd")
     autocmd BufReadPost *
                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -150,7 +151,7 @@ set matchpairs=(:),{:},[:],<:>
 let g:mapleader = ","
 
 "--> 图形界面配置
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 if has('gui_running')
     set guioptions-=m " 隐藏菜单栏
     set guioptions-=t " 隐藏菜单栏中的撕下此菜单
@@ -172,12 +173,8 @@ if exists("&guifont")
     if has("mac")
         set guifont=Monaco:h12
     elseif has("unix")
-        if &guifont == ""
-            set guifont=Droid\ Sans\ Mono\ 13
-        endif
-    elseif has("win32")
-        set guifont=Consolas:h11,Courier\ New:h10
-    endif
+        set guifont=Droid\ Sans\ Mono\ 13
+    end
 endif
 
 augroup reload_vimrc
@@ -187,7 +184,7 @@ augroup END
 
 
 "--> Vundle 标签样式
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 hi TabLineFill term=none
 hi TabLineFill ctermfg=DarkGrey
 hi TabLineFill guifg=#777777
@@ -234,7 +231,7 @@ function! MyTabLabel(n)
 endfunction
 
 "--> Vundle 插件管理
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 Plugin 'gmarik/vundle'               " -- 插件管理工具
 Plugin 'Lokaltog/vim-powerline'      " -- 状态栏 
 Plugin 'vim-scripts/The-NERD-tree'   " -- 文件目录树
@@ -243,4 +240,4 @@ Plugin 'kien/ctrlp.vim'              " -- 搜索文件
 Plugin 'msanders/snipmate.vim'       " -- 代码生成
 Plugin 'scrooloose/nerdcommenter'    " -- 代码注释
 Plugin 'aperezdc/vim-template'       " -- 新建文件自动加载模板
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
