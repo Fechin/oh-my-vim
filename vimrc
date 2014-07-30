@@ -15,7 +15,6 @@ filetype plugin indent on
 
 let g:snippets_dir='~/.vim/snippets/'
 
-
 "--> 基本设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 syntax on
@@ -62,6 +61,7 @@ let g:Powerline_symbols = 'compatible'
 let g:username = 'Fechin'
 let g:email = 'lihuoqingfly@163.com'
 let g:template_dir = '~/.vim/templates'
+
 
 "--> NERDTree
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -240,4 +240,6 @@ Plugin 'kien/ctrlp.vim'              " -- 搜索文件
 Plugin 'msanders/snipmate.vim'       " -- 代码生成
 Plugin 'scrooloose/nerdcommenter'    " -- 代码注释
 Plugin 'aperezdc/vim-template'       " -- 新建文件自动加载模板
+Plugin 'tpope/vim-surround'          " -- 文本更衣
+Plugin 'ervandew/supertab'           " -- Tab按键增强
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
