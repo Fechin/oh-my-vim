@@ -101,6 +101,12 @@ let NERDTreeHijackNetrw=1       " 当输入 [:e filename]不再显示netrw,而�
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <C-w> <C-w>w
+map <C-l> :tabn<cr>             "下一个tab
+map <C-h> :tabp<cr>             "上一个tab
+map <C-n> :tabnew<cr>           "新tab
+map <C-k> :bn<cr>               "下一个文件
+map <C-j> :bp<cr>               "上一个文件
+
 nnoremap <silent> <F8> :NERDTreeToggle<CR>
 nnoremap <silent> <F9> :TlistToggle<CR>
 
