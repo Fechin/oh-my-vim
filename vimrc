@@ -6,41 +6,53 @@
 " URL    : https://github.com/Fechin/oh-my-vim.git
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 
-set nocompatible
-
 set rtp+=~/.vim/bundle/vundle/
-
 call vundle#rc()
-filetype plugin indent on
-
 let g:snippets_dir='~/.vim/snippets/'
+
+
+"--> 系统检测
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let s:uname = ""
+if has("unix")
+    let s:uname = system("echo -n \"$(uname)\"")
+endif
 
 "--> 基本设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-syntax on
-set hlsearch
-set incsearch
-set sw=4
-set ts=4
-set et
-set smarttab
-set smartindent
-set lbr
-set fo+=mB
-set sm
-set selection=inclusive
-set wildmenu
-set mousemodel=popup
-set shortmess=atI
-set cul
-set history=500
-set showcmd
-set magic
-set backspace=indent,eol,start
-
-autocmd InsertEnter * se cul
-let g:rehash256 = 1
-colorscheme molokai
+filetype on                     " 开启文件类型侦测
+syntax on                       " 打开语法高亮
+filetype indent on              " 针对不同的文件类型采用不同的缩进格式
+filetype plugin on              " 针对不同的文件类型加载对应的插件
+filetype plugin indent on       " 启用自动补全
+set nocompatible                " 关闭兼容模式
+set backspace=2                 " 设置退格键可用
+set autoindent                  " 自动对齐
+set tabstop=4                   " 设置Tab为4个空格
+set shiftwidth=4                " 自动缩减空格长度
+set ai!                         " 设置自动缩进
+set smartindent                 " 智能自动缩进
+set smarttab                    " 智能Tab
+set mousemodel=popup            " 允许鼠标右键
+set ruler                       " 右下角显示光标位置的状态行
+set incsearch                   " 开启实时搜索功能
+set hlsearch                    " 开启高亮显示结果
+set ignorecase                  " 搜索忽略大小写
+set nowrapscan                  " 搜索到文件两端时不重新搜索
+set hidden                      " 允许在有未保存的修改时切换缓冲区
+set laststatus=2                " 开启状态栏信息
+set cmdheight=1                 " 命令行的高度
+set writebackup                 " 设置无备份文件
+set nobackup                    " 不生成备份文件
+set noswapfile                  " 不生成交换文件
+set expandtab                   " 将Tab自动转化成空格 [需要输入真正的Tab键时，使用 Ctrl+V + Tab]
+set showmatch                   " 显示括号配对情况
+set showcmd                     " 显示命令
+set noerrorbells                " 关闭提示音
+set wildmenu                    " 在状态栏显示匹配命令
+autocmd InsertEnter * se cul    " 浅色高亮当前行
+let g:rehash256 = 1             " 配色高亮
+colorscheme molokai             " 设置主题配色
 
 " 设置文件编码和文件格式
 set encoding=utf-8
@@ -51,10 +63,22 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
 "--> PowerLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-set laststatus=2
 set t_Co=256
 let g:Powerline_symbols = 'compatible'
 
+
+"--> NERDCommenter
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let NERDSpaceDelims = 1                  " 自动添加前置空格
+
+
+"--> TagList
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let Tlist_GainFocus_On_ToggleOpen = 1    " 自动获取焦点
+let Tlist_Enable_Fold_Column      = 0    " 不显示左侧折叠树
+let Tlist_Show_One_File           = 1    " 只显示当前文件的tags
+let Tlist_Exit_OnlyWindow         = 1    " 如果Taglist窗口是最后一个窗口则退出Vim
+let Tlist_Use_Right_Window        = 1    " 在右侧窗口中显示
 
 "--> vim-template
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -68,58 +92,59 @@ let g:template_dir = '~/.vim/templates'
 let NERDTreeAutoCenter=1
 let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
 let NERDTreeShowBookmarks=1
-let NERDChristmasTree=1         " 让树更好看,我是没看出来
+let NERDChristmasTree=1         " 让树更好看
 let NERDTreeCaseSensitiveSort=1 " 让文件排列更有序
 let NERDTreeChDirMode=1         " 改变tree目录的同时改变工程的目录
 let NERDTreeHijackNetrw=1       " 当输入 [:e filename]不再显示netrw,而是显示nerdtree
-nnoremap f :NERDTreeToggle
 
 
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <C-w> <C-w>w
-
-map <F3> :NERDTreeToggle<CR>
-imap <F3> <ESC> :NERDTreeToggle<CR>
+nnoremap <silent> <F8> :NERDTreeToggle<CR>
+nnoremap <silent> <F9> :TlistToggle<CR>
 
 
 "--> 按按F5编译运
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-map <F5> :call CompileRunGcc()<CR>
-func! CompileRunGcc()
+map <F5> :call CompileRun()<CR>
+func! CompileRun()
     exec "w"
-    if &filetype == 'c'
-        exec "!g++ % -o %<"
-        exec "!time ./%<"
-    elseif &filetype == 'cpp'
-        exec "!g++ % -o %<"
-        exec "!time ./%<"
-    elseif &filetype == 'java' 
-        exec "!javac %" 
-        exec "!time java %<"
+    if &filetype == "java" 
+        exec "!javac %:t && java %:r"
+    elseif &filetype == "c"
+        exec "!gcc -Wall -std=c11 -o %:r %:t && ./%:r"
+    elseif &filetype == "cpp"
+        exec "!g++ -Wall -std=c++11 -o %:r %:t && ./%:r"
+    elseif &filetype == "go"
+        exec "!go build %:t && ./%:r"
     elseif &filetype == 'sh'
-        :!time bash %
-    elseif &filetype == 'python'
-        exec "!time python2.7 %"
+        exec "!bash %:t"
+    elseif &filetype == "lua"
+        exec "!lua %:t"
+    elseif &filetype == "perl"
+        exec "!perl %:t"
+    elseif &filetype == "php"
+        exec "!php %:t"
+    elseif &filetype == "python"
+        exec "!python %:t"
+    elseif &filetype == "ruby"
+        exec "!ruby %:t"
     elseif &filetype == 'html'
-        exec "!google-chrome % &"
-    elseif &filetype == 'go'
-        "        exec "!go build %<"
-        exec "!time go run %"
+        if !v:shell_error && s:uname == "Linux"
+            exec "!gnome-open % &"
+        elseif s:uname == "Darwin"
+            exec "!open % &"
+        endif
     elseif &filetype == 'mkd'
         exec "!~/.vim/markdown.pl % > %.html &"
-        exec "!google-chrome %.html &"
+        if !v:shell_error && s:uname == "Linux"
+            exec "!gnome-open %.html &"
+        elseif s:uname == "Darwin"
+            exec "!open %.html &"
+        endif
     endif
 endfunc
-"C,C++的调试
-map <F8> :call Rungdb()<CR>
-func! Rungdb()
-    exec "w"
-    exec "!g++ % -g -o %<"
-    exec "!gdb ./%<"
-endfunc
-
-
 
 "--> 偏好设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -135,20 +160,13 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
                 \ && b:NERDTreeType == "primary") | q | endif
 " 在处理未保存或只读文件的时候，弹出确认
-set confirm
-"禁止生成临时文件
-set nobackup
-set noswapfile
-"搜索忽略大小写
-set ignorecase"
-" 高亮显示匹配的括号"
-set showmatch
+
 
 let NERDTreeIgnore=['\.pyc']
-set matchpairs=(:),{:},[:],<:>
 
 " NERD Commenter 按键
 let g:mapleader = ","
+
 
 "--> 图形界面配置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -173,7 +191,7 @@ if exists("&guifont")
     if has("mac")
         set guifont=Monaco:h12
     elseif has("unix")
-        set guifont=Droid\ Sans\ Mono\ 13
+        set guifont=Droid\ Sans\ Mono\ 12
     end
 endif
 
@@ -183,7 +201,7 @@ augroup reload_vimrc
 augroup END
 
 
-"--> Vundle 标签样式
+"--> 标签样式
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 hi TabLineFill term=none
 hi TabLineFill ctermfg=DarkGrey
@@ -242,4 +260,6 @@ Plugin 'scrooloose/nerdcommenter'    " -- 代码注释
 Plugin 'aperezdc/vim-template'       " -- 新建文件自动加载模板
 Plugin 'tpope/vim-surround'          " -- 文本更衣
 Plugin 'ervandew/supertab'           " -- Tab按键增强
+Plugin 'vim-scripts/taglist.vim'     " -- TagList
+Plugin 'vim-scripts/Auto-Pairs'      " -- 括号自动补全
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
