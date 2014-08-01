@@ -142,6 +142,7 @@ func! CompileRun()
         elseif s:uname == "Darwin"
             exec "!open % &"
         endif
+        call feedkeys("\<CR>")
     elseif &filetype == 'mkd'
         exec "!~/.vim/markdown.pl % > %.html &"
         if !v:shell_error && s:uname == "Linux"
@@ -149,6 +150,7 @@ func! CompileRun()
         elseif s:uname == "Darwin"
             exec "!open %.html &"
         endif
+        call feedkeys("\<CR>")
     endif
 endfunc
 
