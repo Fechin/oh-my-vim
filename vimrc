@@ -70,6 +70,16 @@ set t_Co=256
 let g:Powerline_symbols = 'compatible'
 
 
+"--> 语法检查
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let g:syntastic_check_on_open          = 1
+let g:syntastic_enable_signs           = 1
+let g:syntastic_javascript_checkers    = ['jshint']
+let g:syntastic_python_checkers        = ['pyflakes']
+let g:syntastic_html_checkers          = ['jshint']
+let g:syntastic_error_symbol           = "✗"
+let g:syntastic_warning_symbol         = '!'
+
 "--> NERDCommenter
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 let NERDSpaceDelims = 1                " 自动添加前置空格
@@ -119,9 +129,9 @@ autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTreeType')
 map <C-w> <C-w>w
 map <C-l> :tabn<CR>               " 下一个tab
 map <C-h> :tabp<CR>               " 上一个tab
-map <C-n> :tabnew<cr>             " 新tab
-map <C-k> :bn<cr>                 " 下一个文件
-map <C-j> :bp<cr>                 " 上一个文件
+map <C-n> :tabnew<CR>             " 新tab
+map <C-k> :bn<CR>                 " 下一个文件
+map <C-j> :bp<CR>                 " 上一个文件
 
 nnoremap <silent> <F8> :NERDTreeToggle<CR>
 nnoremap <silent> <F9> :TlistToggle<CR>
@@ -273,4 +283,5 @@ Plugin 'tpope/vim-surround'          " -- 文本更衣
 Plugin 'ervandew/supertab'           " -- Tab按键增强
 Plugin 'vim-scripts/taglist.vim'     " -- TagList
 Plugin 'vim-scripts/Auto-Pairs'      " -- 括号自动补全
+Plugin 'scrooloose/syntastic'        " -- 语法检查
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
