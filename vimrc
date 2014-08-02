@@ -13,9 +13,11 @@ let g:snippets_dir='~/.vim/snippets/'
 
 "--> 系统检测
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let s:uname = ""
-if has("unix")
-    let s:uname = system("echo -n \"$(uname)\"")
+let g:osName = ''
+let g:osDictionary = {'Linux':'linux','Darwin':'mac'}
+if has('unix')
+    let s:uname = system('echo -n $(uname)')
+    let g:osName = !v:shell_error ? g:osDictionary[s:uname] : ''
 endif
 
 "--> 基本设置
@@ -53,12 +55,13 @@ set wildmenu                    " 在状态栏显示匹配命令
 autocmd InsertEnter * se cul    " 浅色高亮当前行
 let g:rehash256 = 1             " 配色高亮
 colorscheme molokai             " 设置主题配色
+set background=dark             " 试图使用深色背景上看起来舒服的颜色
 
 " 设置文件编码和文件格式
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set encoding      =utf-8
+set termencoding  =utf-8
+set fileencoding  =utf-8
+set fileencodings =ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
 
 "--> PowerLine
@@ -69,43 +72,56 @@ let g:Powerline_symbols = 'compatible'
 
 "--> NERDCommenter
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let NERDSpaceDelims = 1                  " 自动添加前置空格
+let NERDSpaceDelims = 1                " 自动添加前置空格
+let g:mapleader     = ','              " NERD Commenter 按键
 
 
 "--> TagList
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let Tlist_GainFocus_On_ToggleOpen = 1    " 自动获取焦点
-let Tlist_Enable_Fold_Column      = 0    " 不显示左侧折叠树
-let Tlist_Show_One_File           = 1    " 只显示当前文件的tags
-let Tlist_Exit_OnlyWindow         = 1    " 如果Taglist窗口是最后一个窗口则退出Vim
-let Tlist_Use_Right_Window        = 1    " 在右侧窗口中显示
+let Tlist_GainFocus_On_ToggleOpen = 1  " 自动获取焦点
+let Tlist_Enable_Fold_Column      = 0  " 不显示左侧折叠树
+let Tlist_Show_One_File           = 1  " 只显示当前文件的tags
+let Tlist_Exit_OnlyWindow         = 1  " 如果Taglist窗口是最后一个窗口则退出Vim
+let Tlist_Use_Right_Window        = 1  " 在右侧窗口中显示
+
+" Ctags for Taglist
+if g:osName == 'mac'
+    let Tlist_Ctags_Cmd = '/usr/bin/.ctags'
+endif
 
 "--> vim-template
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:username = 'Fechin'
-let g:email = 'lihuoqingfly@163.com'
-let g:template_dir = '~/.vim/templates'
+let g:username                    = 'Fechin'
+let g:email                       = 'lihuoqingfly@163.com'
+let g:template_dir                = '~/.vim/templates'
 
 
 "--> NERDTree
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let NERDTreeAutoCenter=1
-let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
-let NERDTreeShowBookmarks=1
-let NERDChristmasTree=1         " 让树更好看
-let NERDTreeCaseSensitiveSort=1 " 让文件排列更有序
-let NERDTreeChDirMode=1         " 改变tree目录的同时改变工程的目录
-let NERDTreeHijackNetrw=1       " 当输入 [:e filename]不再显示netrw,而是显示nerdtree
+let NERDTreeAutoCenter            = 1  " 窗口居中 
+let NERDTreeShowBookmarks         = 1  " 显示书签
+let NERDChristmasTree             = 1  " 让树更好看
+let NERDTreeMinimalUI             = 1  " 不显示帮助面板
+let NERDTreeCaseSensitiveSort     = 1  " 让文件排列更有序
+let NERDTreeChDirMode             = 1  " 改变tree目录的同时改变工程的目录
+let NERDTreeHijackNetrw           = 1  " 当输入 [:e filename]不再显示netrw,而是显示nerdtree
+let NERDTreeIgnore                = ['\.pyc','\.git','\.svn']
+let NERDTreeBookmarksFile         = $VIM.'\Data\NerdBookmarks.txt'
 
+" 当打开vim且没有文件时自动打开NERDTree
+autocmd vimenter * if !argc() | NERDTree | endif
+" 只剩 NERDTree时自动关闭
+autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTreeType')
+                \ && b:NERDTreeType == 'primary') | q | endif
 
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <C-w> <C-w>w
-map <C-l> :tabn<cr>             "下一个tab
-map <C-h> :tabp<cr>             "上一个tab
-map <C-n> :tabnew<cr>           "新tab
-map <C-k> :bn<cr>               "下一个文件
-map <C-j> :bp<cr>               "上一个文件
+map <C-l> :tabn<CR>               " 下一个tab
+map <C-h> :tabp<CR>               " 上一个tab
+map <C-n> :tabnew<cr>             " 新tab
+map <C-k> :bn<cr>                 " 下一个文件
+map <C-j> :bp<cr>                 " 上一个文件
 
 nnoremap <silent> <F8> :NERDTreeToggle<CR>
 nnoremap <silent> <F9> :TlistToggle<CR>
@@ -113,68 +129,46 @@ nnoremap <silent> <F9> :TlistToggle<CR>
 
 "--> 按按F5编译运
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-map <F5> :call CompileRun()<CR>
-func! CompileRun()
-    exec "w"
-    if &filetype == "java" 
-        exec "!javac %:t && java %:r"
-    elseif &filetype == "c"
-        exec "!gcc -Wall -std=c11 -o %:r %:t && ./%:r"
-    elseif &filetype == "cpp"
-        exec "!g++ -Wall -std=c++11 -o %:r %:t && ./%:r"
-    elseif &filetype == "go"
-        exec "!go build %:t && ./%:r"
+map <F5> :call CompileAndRun()<CR>
+func! CompileAndRun()
+    exec 'w'
+    if     &filetype == 'java' 
+        exec '!javac %:t && java %:r'
+    elseif &filetype == 'c'
+        exec '!gcc -Wall -std=c11 -o %:r %:t && ./%:r'
+    elseif &filetype == 'cpp'
+        exec '!g++ -Wall -std=c++11 -o %:r %:t && ./%:r'
+    elseif &filetype == 'go'
+        exec '!go build %:t && ./%:r'
     elseif &filetype == 'sh'
-        exec "!bash %:t"
-    elseif &filetype == "lua"
-        exec "!lua %:t"
-    elseif &filetype == "perl"
-        exec "!perl %:t"
-    elseif &filetype == "php"
-        exec "!php %:t"
-    elseif &filetype == "python"
-        exec "!python %:t"
-    elseif &filetype == "ruby"
-        exec "!ruby %:t"
+        exec '!bash %:t'
+    elseif &filetype == 'lua'
+        exec '!lua %:t'
+    elseif &filetype == 'perl'
+        exec '!perl %:t'
+    elseif &filetype == 'php'
+        exec '!php %:t'
+    elseif &filetype == 'python'
+        exec '!python %:t'
+    elseif &filetype == 'ruby'
+        exec '!ruby %:t'
     elseif &filetype == 'html'
-        if !v:shell_error && s:uname == "Linux"
-            exec "!gnome-open % &"
-        elseif s:uname == "Darwin"
-            exec "!open % &"
+        if g:osName == 'linux'
+            exec '!gnome-open % &'
+        elseif g:osName == 'mac'
+            exec '!open % &'
         endif
-        call feedkeys("\<CR>")
+        call feedkeys('\<CR>')
     elseif &filetype == 'mkd'
-        exec "!~/.vim/markdown.pl % > %.html &"
-        if !v:shell_error && s:uname == "Linux"
-            exec "!gnome-open %.html &"
-        elseif s:uname == "Darwin"
-            exec "!open %.html &"
+        exec '!~/.vim/markdown.pl % > %.html &'
+        if g:osName == 'linux'
+            exec '!gnome-open %.html &'
+        elseif g:osName == 'mac'
+            exec '!open %.html &'
         endif
-        call feedkeys("\<CR>")
+        call feedkeys('\<CR>')
     endif
 endfunc
-
-"--> 偏好设置
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-if has("autocmd")
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal g`\"" |
-                \ endif
-endif
-"当打开vim且没有文件时自动打开NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
-" 只剩 NERDTree时自动关闭
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
-                \ && b:NERDTreeType == "primary") | q | endif
-" 在处理未保存或只读文件的时候，弹出确认
-
-
-let NERDTreeIgnore=['\.pyc']
-
-" NERD Commenter 按键
-let g:mapleader = ","
-
 
 "--> 图形界面配置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -186,28 +180,34 @@ if has('gui_running')
     set guioptions-=r " 隐藏右侧滚动条
     set guioptions-=b " 隐藏底部滚动条
 
-    if has("gui_macvim")
-        set imdisable	"Set input method off
-        set autochdir	"自动切换到文件当前目录
+    if has('gui_macvim')
+        set imdisable " Set input method off
+        set autochdir " 自动切换到文件当前目录
 
     endif
 else
     set ambiwidth=single
 endif
 
-if exists("&guifont")
-    if has("mac")
-        set guifont=Monaco:h12
-    elseif has("unix")
-        set guifont=Droid\ Sans\ Mono\ 12
+if exists('&guifont')
+    if g:osName == 'linux'
+        set guifont =Droid\ Sans\ Mono\ 12
+    elseif g:osName == 'mac' 
+        set guifont =Monaco:h12
     end
 endif
 
+" VIMRC保存生效
 augroup reload_vimrc
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
+" 打开文件时，自动跳转到光标最后所在的位置
+if has('autocmd')
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$')
+    \| exe "normal! g'\"" | endif
+endif
 
 "--> 标签样式
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -220,6 +220,7 @@ hi TabLineSel cterm=none ctermfg=yellow ctermbg=Black
 hi TabLineSel gui=none guifg=yellow guibg=Black
 
 set tabline=%!MyTabLine()
+
 function! MyTabLine()
     let s = ''
     for i in range(tabpagenr('$'))
@@ -242,6 +243,7 @@ function! MyTabLine()
     endif
     return s
 endfunction
+
 " 文件名标签
 function! MyShortTabLabel(n)
     let buflist = tabpagebuflist(a:n)
@@ -249,7 +251,8 @@ function! MyShortTabLabel(n)
     let filename = fnamemodify (label, ':t')
     return filename
 endfunction
-"完整路径标签
+
+" 完整路径标签
 function! MyTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let winnr = tabpagewinnr(a:n)
