@@ -8,7 +8,6 @@
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-let g:snippets_dir='~/.vim/snippets/'
 
 
 "--> 系统检测
@@ -20,12 +19,10 @@ if has('unix')
     let g:osName = !v:shell_error ? g:osDictionary[s:uname] : ''
 endif
 
+
 "--> 基本设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-filetype on                     " 开启文件类型侦测
 syntax on                       " 打开语法高亮
-filetype indent on              " 针对不同的文件类型采用不同的缩进格式
-filetype plugin on              " 针对不同的文件类型加载对应的插件
 filetype plugin indent on       " 启用自动补全
 set nocompatible                " 关闭兼容模式
 set backspace=2                 " 设置退格键可用
@@ -70,6 +67,42 @@ set t_Co=256
 let g:Powerline_symbols = 'compatible'
 
 
+"--> YouCompleteMe
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let g:ycm_global_ycm_extra_conf                    = '$VIM/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf                       = 0 " 打开vim时不再询问是否加载ycm_extra_conf.py配置
+let g:ycm_collect_identifiers_from_tag_files       = 1 " 使用ctags生成的tags文件
+let g:syntastic_always_populate_loc_list           = 1
+
+"--> UltiSnips模板生成
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let g:UltiSnipsExpandTrigger       = '<tab>'
+let g:UltiSnipsJumpForwardTrigger  = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+
+" 自动调用 UltiSnipsAddFileTypes filetype
+if has("autocmd")
+    autocmd FileType * call UltiSnips#FileTypeChanged()
+    autocmd BufNewFile,BufRead *.snippets setf snippets
+endif
+
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+
 "--> 语法检查
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 let g:syntastic_check_on_open          = 1
@@ -79,6 +112,7 @@ let g:syntastic_python_checkers        = ['pyflakes']
 let g:syntastic_html_checkers          = ['jshint']
 let g:syntastic_error_symbol           = "✗"
 let g:syntastic_warning_symbol         = '!'
+
 
 "--> NERDCommenter
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -135,6 +169,8 @@ map <C-j> :bp<CR>                 " 上一个文件
 
 nnoremap <silent> <F8> :NERDTreeToggle<CR>
 nnoremap <silent> <F9> :TlistToggle<CR>
+nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   "按,jd 会跳转到定义
 
 
 "--> 按按F5编译运
@@ -276,12 +312,13 @@ Plugin 'Lokaltog/vim-powerline'      " -- 状态栏
 Plugin 'vim-scripts/The-NERD-tree'   " -- 文件目录树
 Plugin 'mattn/emmet-vim'             " -- HTML/CSS代码快速生成
 Plugin 'kien/ctrlp.vim'              " -- 搜索文件
-Plugin 'msanders/snipmate.vim'       " -- 代码生成
 Plugin 'scrooloose/nerdcommenter'    " -- 代码注释
 Plugin 'aperezdc/vim-template'       " -- 新建文件自动加载模板
 Plugin 'tpope/vim-surround'          " -- 文本更衣
-Plugin 'ervandew/supertab'           " -- Tab按键增强
 Plugin 'vim-scripts/taglist.vim'     " -- TagList
 Plugin 'vim-scripts/Auto-Pairs'      " -- 括号自动补全
 Plugin 'scrooloose/syntastic'        " -- 语法检查
+Plugin 'Valloric/YouCompleteMe'      " -- 代码补全
+Plugin 'SirVer/ultisnips'            " -- 模板生成补全
+Plugin 'honza/vim-snippets'          " -- snippets
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
