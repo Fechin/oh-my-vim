@@ -69,10 +69,19 @@ let g:Powerline_symbols = 'compatible'
 
 "--> YouCompleteMe
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:ycm_global_ycm_extra_conf                    = '$VIM/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf                       = 0 " 打开vim时不再询问是否加载ycm_extra_conf.py配置
-let g:ycm_collect_identifiers_from_tag_files       = 1 " 使用ctags生成的tags文件
-let g:syntastic_always_populate_loc_list           = 1
+let g:ycm_global_ycm_extra_conf               = '$VIM/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf                  = 0 " 打开vim时不再询问是否加载ycm_extra_conf.py配置
+let g:ycm_collect_identifiers_from_tag_files  = 1 " 使用ctags生成的tags文件
+let g:syntastic_always_populate_loc_list      = 1
+
+let g:ycm_cache_omnifunc                      = 0 " 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_seed_identifiers_with_syntax        = 1 " 开启语义补全
+let g:ycm_cache_omnifunc                      = 0 " 每次重新生成匹配项，禁止缓存匹配项
+let g:ycm_complete_in_comments                = 1 " 在注释中也可以补全
+let g:ycm_min_num_of_chars_for_completion     = 1 " 输入第一个字符就开始补全
+set completeopt-=preview                      " 在接受补全后不分裂出一个窗口显示接受的项
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif	" 离开插入模式后自动关闭预览窗口
+
 
 "--> UltiSnips模板生成
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -111,7 +120,7 @@ let g:syntastic_javascript_checkers    = ['jshint']
 let g:syntastic_python_checkers        = ['pyflakes']
 let g:syntastic_html_checkers          = ['jshint']
 let g:syntastic_error_symbol           = "✗"
-let g:syntastic_warning_symbol         = '!'
+let g:syntastic_warning_symbol         = '⚠'
 
 
 "--> NERDCommenter
@@ -166,6 +175,9 @@ map <C-h> :tabp<CR>               " 上一个tab
 map <C-n> :tabnew<CR>             " 新tab
 map <C-k> :bn<CR>                 " 下一个文件
 map <C-j> :bp<CR>                 " 上一个文件
+nmap <leader>w :w!<cr>
+imap <leader>w <esc>:w!<cr>
+inoremap <leader><TAB> <C-x><C-o>
 
 nnoremap <silent> <F8> :NERDTreeToggle<CR>
 nnoremap <silent> <F9> :TlistToggle<CR>
