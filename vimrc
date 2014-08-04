@@ -38,6 +38,8 @@ set incsearch                   " 开启实时搜索功能
 set hlsearch                    " 开启高亮显示结果
 set ignorecase                  " 搜索忽略大小写
 set nowrapscan                  " 搜索到文件两端时不重新搜索
+set nosplitbelow                " 窗口的分割会把新窗口放到当前窗口之下
+set nosplitright                " 窗口的分割会把新窗口放到当前窗口之右
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set laststatus=2                " 开启状态栏信息
 set cmdheight=1                 " 命令行的高度
@@ -61,10 +63,11 @@ set fileencoding  =utf-8
 set fileencodings =ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
 
-"--> PowerLine
+"--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 set t_Co=256
-let g:Powerline_symbols = 'compatible'
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 
 "--> YouCompleteMe
@@ -182,7 +185,7 @@ inoremap <leader><TAB> <C-x><C-o>
 nnoremap <silent> <F8> :NERDTreeToggle<CR>
 nnoremap <silent> <F9> :TlistToggle<CR>
 nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   "按,jd 会跳转到定义
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
 
 
 "--> 按按F5编译运
@@ -320,7 +323,7 @@ endfunction
 "--> Vundle 插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 Plugin 'gmarik/vundle'               " -- 插件管理工具
-Plugin 'Lokaltog/vim-powerline'      " -- 状态栏 
+Plugin 'bling/vim-airline'           " -- 状态栏 
 Plugin 'vim-scripts/The-NERD-tree'   " -- 文件目录树
 Plugin 'mattn/emmet-vim'             " -- HTML/CSS代码快速生成
 Plugin 'kien/ctrlp.vim'              " -- 搜索文件
