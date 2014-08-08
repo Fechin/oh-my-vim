@@ -33,6 +33,7 @@ set ruler                       " 右下角显示光标位置的状态行
 set incsearch                   " 开启实时搜索功能
 set hlsearch                    " 开启高亮显示结果
 set ignorecase                  " 搜索忽略大小写
+set shortmess=atI               " 不显示乌干达儿童捐助提示
 set nowrapscan                  " 搜索到文件两端时不重新搜索
 set nosplitbelow                " 窗口的分割会把新窗口放到当前窗口之下
 set nosplitright                " 窗口的分割会把新窗口放到当前窗口之右
@@ -321,7 +322,7 @@ endfunction
 call plug#begin('~/.vim/plugged')
 
 " 插件管理工具
-Plug 'junegunn/vim-plug', { 'do': 'chmod 755 plug.vim && cp -rf plug.vim ~/.vim/autoload' }
+Plug 'junegunn/vim-plug', { 'do': 'cp -rf plug.vim ~/.vim/autoload && chmod 755 ~/.vim/autoload/plug.vim' }
 " 状态栏 
 Plug 'bling/vim-airline'
 " 文件目录树

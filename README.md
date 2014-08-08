@@ -12,5 +12,5 @@ vim 配置，私人定制，完善中。。。
 ```
 
 ```
-  vim/macvim -c 'PlugInstall'
+  rm -rf ~/.vim/pluged/ && vim/macvim -c 'PlugInstall'
 ```
