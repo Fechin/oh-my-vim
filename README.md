@@ -1,7 +1,9 @@
 vim
 ===
+vim 配置，私人定制，完善中。。。
 
-vim 配置，私人定制
+### 说明
+兼容Linux、Mac
 
 ### 安装
 
@@ -10,10 +12,5 @@ vim 配置，私人定制
 ```
 
 ```
-  git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+  vim/macvim -c 'PlugInstall'
 ```
-
-```
-  :PluginInstall
-```
-

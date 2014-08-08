@@ -6,10 +6,6 @@
 " URL    : https://github.com/Fechin/oh-my-vim.git
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-
 "--> 系统检测
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 let g:osName = ''
@@ -322,18 +318,36 @@ endfunction
 
 "--> Vundle 插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-Plugin 'gmarik/vundle'               " -- 插件管理工具
-Plugin 'bling/vim-airline'           " -- 状态栏 
-Plugin 'vim-scripts/The-NERD-tree'   " -- 文件目录树
-Plugin 'mattn/emmet-vim'             " -- HTML/CSS代码快速生成
-Plugin 'kien/ctrlp.vim'              " -- 搜索文件
-Plugin 'scrooloose/nerdcommenter'    " -- 代码注释
-Plugin 'aperezdc/vim-template'       " -- 新建文件自动加载模板
-Plugin 'tpope/vim-surround'          " -- 文本更衣
-Plugin 'vim-scripts/taglist.vim'     " -- TagList
-Plugin 'vim-scripts/Auto-Pairs'      " -- 括号自动补全
-Plugin 'scrooloose/syntastic'        " -- 语法检查
-Plugin 'Valloric/YouCompleteMe'      " -- 代码补全
-Plugin 'SirVer/ultisnips'            " -- 模板生成补全
-Plugin 'honza/vim-snippets'          " -- snippets
+call plug#begin('~/.vim/plugged')
+
+" 插件管理工具
+Plug 'junegunn/vim-plug', { 'do': 'chmod 755 plug.vim && cp -rf plug.vim ~/.vim/autoload' }
+" 状态栏 
+Plug 'bling/vim-airline'
+" 文件目录树
+Plug 'vim-scripts/The-NERD-tree'
+" HTML/CSS代码快速生成
+Plug 'mattn/emmet-vim'
+" 搜索文件
+Plug 'kien/ctrlp.vim'
+" 代码注释
+Plug 'scrooloose/nerdcommenter'
+" 新建文件自动加载模板
+Plug 'aperezdc/vim-template'
+" 文本更衣
+Plug 'tpope/vim-surround'
+" TagList
+Plug 'vim-scripts/taglist.vim'
+" 括号自动补全
+Plug 'vim-scripts/Auto-Pairs'
+" 语法检查
+Plug 'scrooloose/syntastic'
+" 代码补全
+Plug 'Valloric/YouCompleteMe', { 'do':'./install.sh --clang-completer' }
+" 模板生成补全
+Plug 'SirVer/ultisnips'
+" snippets
+Plug 'honza/vim-snippets'
+
+call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
