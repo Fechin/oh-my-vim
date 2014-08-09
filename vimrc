@@ -48,6 +48,7 @@ set showmatch                   " 显示括号配对情况
 set showcmd                     " 显示命令
 set noerrorbells                " 关闭提示音
 set wildmenu                    " 在状态栏显示匹配命令
+set iskeyword+=_,$,@,%,#,-      " 关键字不换行
 autocmd InsertEnter * se cul    " 浅色高亮当前行
 let g:rehash256 = 1             " 配色高亮
 colorscheme molokai             " 设置主题配色
@@ -63,8 +64,9 @@ set fileencodings =ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 "--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 set t_Co=256
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+let g:airline_left_sep  = ''
+let g:airline_right_sep = ''
+let g:airline_theme     = 'kalisi'
 
 
 "--> YouCompleteMe
@@ -170,11 +172,15 @@ autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTreeType')
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <C-w> <C-w>w
-map <C-l> :tabn<CR>               " 下一个tab
-map <C-h> :tabp<CR>               " 上一个tab
-map <C-n> :tabnew<CR>             " 新tab
-map <C-k> :bn<CR>                 " 下一个文件
-map <C-j> :bp<CR>                 " 上一个文件
+map <C-l> :tabn<CR>         " 下一个tab
+map <C-h> :tabp<CR>         " 上一个tab
+map <C-n> :tabnew<CR>       " 新tab
+map <C-k> :bn<CR>           " 下一个文件
+map <C-j> :bp<CR>           " 上一个文件
+map <C-j> <C-W>j            " 窗口切换下
+map <C-k> <C-W>k            " 窗口切换下
+map <C-h> <C-W>h            " 窗口切换左
+map <C-l> <C-W>l            " 窗口切换右
 nmap <leader>w :w!<cr>
 imap <leader>w <esc>:w!<cr>
 inoremap <leader><TAB> <C-x><C-o>
