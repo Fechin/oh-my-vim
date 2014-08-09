@@ -348,6 +348,8 @@ function! SyntasticDependency(info)
     endif
 endfunction
 
+" 插件安装线程数
+let g:Plug_threads = 13
 call plug#begin('~/.vim/plugged')
 
 " 插件管理工具
