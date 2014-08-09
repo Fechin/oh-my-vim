@@ -131,19 +131,6 @@ let NERDSpaceDelims = 1                " 自动添加前置空格
 let g:mapleader     = ','              " NERD Commenter 按键
 
 
-"--> TagList
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let Tlist_GainFocus_On_ToggleOpen = 1  " 自动获取焦点
-let Tlist_Enable_Fold_Column      = 0  " 不显示左侧折叠树
-let Tlist_Show_One_File           = 1  " 只显示当前文件的tags
-let Tlist_Exit_OnlyWindow         = 1  " 如果Taglist窗口是最后一个窗口则退出Vim
-let Tlist_Use_Right_Window        = 1  " 在右侧窗口中显示
-
-" Ctags for Taglist
-if g:osName == 'mac'
-    let Tlist_Ctags_Cmd = '/usr/bin/.ctags'
-endif
-
 "--> vim-template
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 let g:username                    = 'Fechin'
@@ -325,6 +312,42 @@ endfunction
 
 "--> Vundle 插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+function! BuildYCM(info)
+    " info is a dictionary with 3 fields
+    " - name:   name of the plugin
+    " - status: 'installed', 'updated', or 'unchanged'
+    " - force:  set on PlugInstall! or PlugUpdate!
+
+    if a:info.status == 'installed' || a:info.force
+        " 安装依赖包
+        if g:osName == 'linux'
+            exec '!echo \'正在安装YCM补全依赖，请耐心等待。。。\''
+            exec '!sudo apt-get install build-essential cmake python-dev'
+        elseif g:osName == 'mac'
+            exec '!echo \'正在安装cmake，请耐心等待。。。\''
+            exec '!brew install cmake'
+        endif
+        exec '!echo \'正在编译YouCompleteMe，请耐心等待。。。\''
+        exec '!./install.sh --clang-completer'
+        exec '!echo \'恭喜，YouCompleteMe安装完成!\''
+    endif
+endfunction
+
+function! SyntasticDependency(info)
+    if a:info.status == 'installed' || a:info.force
+        " 安装语法检查工具
+        exec '!echo \'正在安装语法检查工具，请耐心等待。。。\''
+        if g:osName == 'linux'
+            exec '!sudo apt-get install pyflakes npm'
+        elseif g:osName == 'mac'
+            exec '!brew install npm && npm install jshint -g'
+            exec '!sudo easy_install pyflakes'
+        endif
+        exec '!npm install jshint -g'
+        exec '!echo \'恭喜，语法检查工具安装完成!\''
+    endif
+endfunction
+
 call plug#begin('~/.vim/plugged')
 
 " 插件管理工具
@@ -343,14 +366,12 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'aperezdc/vim-template'
 " 文本更衣
 Plug 'tpope/vim-surround'
-" TagList
-Plug 'vim-scripts/taglist.vim'
 " 括号自动补全
 Plug 'vim-scripts/Auto-Pairs'
 " 语法检查
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic', { 'do' : function( 'SyntasticDependency' ) }
 " 代码补全
-Plug 'Valloric/YouCompleteMe', { 'do':'./install.sh --clang-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do' : function( 'BuildYCM' ) }
 " 模板生成补全
 Plug 'SirVer/ultisnips'
 " snippets
