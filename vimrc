@@ -98,7 +98,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.snippets setf snippets
 endif
 
-function! g:UltiSnips_Complete()
+func! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
         if pumvisible()
@@ -111,7 +111,7 @@ function! g:UltiSnips_Complete()
         endif
     endif
     return ""
-endfunction
+endfunc
 au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 "--> 语法检查
@@ -272,7 +272,7 @@ hi TabLineSel gui=none guifg=yellow guibg=Black
 
 set tabline=%!MyTabLine()
 
-function! MyTabLine()
+func! MyTabLine()
     let s = ''
     for i in range(tabpagenr('$'))
         " 选择高亮
@@ -293,26 +293,26 @@ function! MyTabLine()
         let s .= '%=%#TabLine#%999Xㄨ'
     endif
     return s
-endfunction
+endfunc
 
 " 文件名标签
-function! MyShortTabLabel(n)
+func! MyShortTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let label = bufname (buflist[tabpagewinnr (a:n) -1])
     let filename = fnamemodify (label, ':t')
     return filename
-endfunction
+endfunc
 
 " 完整路径标签
-function! MyTabLabel(n)
+func! MyTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let winnr = tabpagewinnr(a:n)
     return bufname(buflist[winnr - 1])
-endfunction
+endfunc
 
 "--> Vundle 插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-function! BuildYCM(info)
+func! BuildYCM(info)
     " info is a dictionary with 3 fields
     " - name:   name of the plugin
     " - status: 'installed', 'updated', or 'unchanged'
@@ -321,32 +321,32 @@ function! BuildYCM(info)
     if a:info.status == 'installed' || a:info.force
         " 安装依赖包
         if g:osName == 'linux'
-            exec '!echo \'正在安装YCM补全依赖，请耐心等待。。。\''
-            exec '!sudo apt-get install build-essential cmake python-dev'
+            exec "!echo '正在安装YCM补全依赖，请耐心等待。。。'"
+            exec "!sudo apt-get install build-essential cmake python-dev"
         elseif g:osName == 'mac'
-            exec '!echo \'正在安装cmake，请耐心等待。。。\''
+            exec "!echo '正在安装cmake，请耐心等待。。。'"
             exec '!brew install cmake'
         endif
-        exec '!echo \'正在编译YouCompleteMe，请耐心等待。。。\''
-        exec '!./install.sh --clang-completer'
-        exec '!echo \'恭喜，YouCompleteMe安装完成!\''
+        exec "!echo '正在编译YouCompleteMe，请耐心等待。。。'"
+        exec "!./install.sh --clang-completer"
+        exec "!echo '恭喜，YouCompleteMe安装完成!'"
     endif
-endfunction
+endfunc
 
-function! SyntasticDependency(info)
+func! SyntasticDependency(info)
     if a:info.status == 'installed' || a:info.force
         " 安装语法检查工具
-        exec '!echo \'正在安装语法检查工具，请耐心等待。。。\''
+        exec "!echo '正在安装语法检查工具，请耐心等待。。。'"
         if g:osName == 'linux'
-            exec '!sudo apt-get install pyflakes npm'
+            exec "!sudo apt-get install pyflakes npm"
         elseif g:osName == 'mac'
-            exec '!brew install npm && npm install jshint -g'
-            exec '!sudo easy_install pyflakes'
+            exec "!brew install npm && npm install jshint -g"
+            exec "!sudo easy_install pyflakes"
         endif
-        exec '!npm install jshint -g'
-        exec '!echo \'恭喜，语法检查工具安装完成!\''
+        exec "!npm install jshint -g"
+        exec "!echo '恭喜，语法检查工具安装完成!'"
     endif
-endfunction
+endfunc
 
 " 插件安装线程数
 let g:Plug_threads = 13
