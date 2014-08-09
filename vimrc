@@ -98,7 +98,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.snippets setf snippets
 endif
 
-func! g:UltiSnips_Complete()
+function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
         if pumvisible()
@@ -111,7 +111,7 @@ func! g:UltiSnips_Complete()
         endif
     endif
     return ""
-endfunc
+endfunction
 au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 "--> 语法检查
@@ -181,7 +181,7 @@ nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd �
 "--> 按按F5编译运
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <F5> :call CompileAndRun()<CR>
-func! CompileAndRun()
+function! CompileAndRun()
     exec 'w'
     if     &filetype == 'java' 
         exec '!javac %:t && java %:r'
@@ -219,7 +219,7 @@ func! CompileAndRun()
         endif
         call feedkeys('\<CR>')
     endif
-endfunc
+endfunction
 
 "--> 图形界面配置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -272,7 +272,7 @@ hi TabLineSel gui=none guifg=yellow guibg=Black
 
 set tabline=%!MyTabLine()
 
-func! MyTabLine()
+function! MyTabLine()
     let s = ''
     for i in range(tabpagenr('$'))
         " 选择高亮
@@ -293,63 +293,28 @@ func! MyTabLine()
         let s .= '%=%#TabLine#%999Xㄨ'
     endif
     return s
-endfunc
+endfunction
 
 " 文件名标签
-func! MyShortTabLabel(n)
+function! MyShortTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let label = bufname (buflist[tabpagewinnr (a:n) -1])
     let filename = fnamemodify (label, ':t')
     return filename
-endfunc
+endfunction
 
 " 完整路径标签
-func! MyTabLabel(n)
+function! MyTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let winnr = tabpagewinnr(a:n)
     return bufname(buflist[winnr - 1])
-endfunc
+endfunction
 
 "--> Vundle 插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-func! BuildYCM(info)
-    " info is a dictionary with 3 fields
-    " - name:   name of the plugin
-    " - status: 'installed', 'updated', or 'unchanged'
-    " - force:  set on PlugInstall! or PlugUpdate!
-
-    if a:info.status == 'installed' || a:info.force
-        " 安装依赖包
-        if g:osName == 'linux'
-            exec "!echo '正在安装YCM补全依赖，请耐心等待。。。'"
-            exec "!sudo apt-get install build-essential cmake python-dev"
-        elseif g:osName == 'mac'
-            exec "!echo '正在安装cmake，请耐心等待。。。'"
-            exec '!brew install cmake'
-        endif
-        exec "!echo '正在编译YouCompleteMe，请耐心等待。。。'"
-        exec "!./install.sh --clang-completer"
-        exec "!echo '恭喜，YouCompleteMe安装完成!'"
-    endif
-endfunc
-
-func! SyntasticDependency(info)
-    if a:info.status == 'installed' || a:info.force
-        " 安装语法检查工具
-        exec "!echo '正在安装语法检查工具，请耐心等待。。。'"
-        if g:osName == 'linux'
-            exec "!sudo apt-get install pyflakes npm"
-        elseif g:osName == 'mac'
-            exec "!brew install npm && npm install jshint -g"
-            exec "!sudo easy_install pyflakes"
-        endif
-        exec "!npm install jshint -g"
-        exec "!echo '恭喜，语法检查工具安装完成!'"
-    endif
-endfunc
-
 " 插件安装线程数
 let g:Plug_threads = 13
+
 call plug#begin('~/.vim/plugged')
 
 " 插件管理工具
@@ -371,9 +336,9 @@ Plug 'tpope/vim-surround'
 " 括号自动补全
 Plug 'vim-scripts/Auto-Pairs'
 " 语法检查
-Plug 'scrooloose/syntastic', { 'do' : function( 'SyntasticDependency' ) }
+Plug 'scrooloose/syntastic'
 " 代码补全
-Plug 'Valloric/YouCompleteMe', { 'do' : function( 'BuildYCM' ) }
+Plug 'Valloric/YouCompleteMe'
 " 模板生成补全
 Plug 'SirVer/ultisnips'
 " snippets
