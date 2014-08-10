@@ -69,7 +69,7 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 let s:plug_source = 'https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-let s:plug_buf = -1
+let s:plug_buf = get(s:, 'plug_buf', -1)
 let s:mac_gui = has('gui_macvim') && has('gui_running')
 let s:is_win = has('win32') || has('win64')
 let s:me = expand('<sfile>:p')
@@ -80,6 +80,7 @@ let s:TYPE = {
 \   'dict':    type({}),
 \   'funcref': type(function('call'))
 \ }
+let s:loaded = get(s:, 'loaded', {})
 
 function! plug#begin(...)
   if a:0 > 0
@@ -148,9 +149,8 @@ function! plug#end()
   " need to loop through the plugins in reverse
   for name in reverse(copy(g:plugs_order))
     let plug = g:plugs[name]
-    if !has_key(plug, 'on') && !has_key(plug, 'for')
-      let rtp = s:rtp(plug)
-      call s:add_rtp(rtp)
+    if get(s:loaded, plug.dir, 0) || !has_key(plug, 'on') && !has_key(plug, 'for')
+      let rtp = s:add_rtp(plug)
       if reload
         call s:source(rtp, 'plugin/**/*.vim', 'after/plugin/**/*.vim')
       endif
@@ -177,8 +177,11 @@ function! plug#end()
     endif
 
     if has_key(plug, 'for')
-      call s:source(s:rtp(plug), 'ftdetect/**/*.vim', 'after/ftdetect/**/*.vim')
-      for key in s:to_a(plug.for)
+      let types = s:to_a(plug.for)
+      if !empty(types)
+        call s:source(s:rtp(plug), 'ftdetect/**/*.vim', 'after/ftdetect/**/*.vim')
+      endif
+      for key in types
         if !has_key(lod, key)
           let lod[key] = []
         endif
@@ -247,12 +250,15 @@ function! s:esc(path)
   return substitute(a:path, ' ', '\\ ', 'g')
 endfunction
 
-function! s:add_rtp(rtp)
-  execute 'set rtp^='.s:esc(a:rtp)
-  let after = globpath(a:rtp, 'after')
+function! s:add_rtp(plug)
+  let rtp = s:rtp(a:plug)
+  execute 'set rtp^='.s:esc(rtp)
+  let after = globpath(rtp, 'after')
   if isdirectory(after)
     execute 'set rtp+='.s:esc(after)
   endif
+  let s:loaded[a:plug.dir] = 1
+  return rtp
 endfunction
 
 function! s:reorg_rtp()
@@ -266,9 +272,28 @@ function! s:reorg_rtp()
   endif
 endfunction
 
+function! plug#load(...)
+  if a:0 == 0
+    return s:err('Argument missing: plugin name(s) required')
+  endif
+  if !exists('g:plugs')
+    return s:err('plug#begin was not called')
+  endif
+  let unknowns = filter(copy(a:000), '!has_key(g:plugs, v:val)')
+  if !empty(unknowns)
+    let s = len(unknowns) > 1 ? 's' : ''
+    return s:err(printf('Unknown plugin%s: %s', s, join(unknowns, ', ')))
+  end
+  for name in a:000
+    call s:lod(g:plugs[name], ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
+  endfor
+  call s:reorg_rtp()
+  silent! doautocmd BufRead
+  return 1
+endfunction
+
 function! s:lod(plug, types)
-  let rtp = s:rtp(a:plug)
-  call s:add_rtp(rtp)
+  let rtp = s:add_rtp(a:plug)
   for dir in a:types
     call s:source(rtp, dir.'/**/*.vim')
   endfor
@@ -319,6 +344,7 @@ function! s:add(repo, ...)
                     \ a:0 == 1 ? s:parse_options(a:1) : s:base_spec)
     let g:plugs[name] = spec
     let g:plugs_order += [name]
+    let s:loaded[spec.dir] = 0
   catch
     return s:err(v:exception)
   endtry
@@ -369,13 +395,17 @@ function! s:update(force, ...)
   call s:update_impl(1, a:force, a:000)
 endfunction
 
-function! s:helptags()
+function! plug#helptags()
+  if !exists('g:plugs')
+    return s:err('plug#begin was not called')
+  endif
   for spec in values(g:plugs)
     let docd = join([spec.dir, 'doc'], '/')
     if isdirectory(docd)
       silent! execute 'helptags '. s:esc(docd)
     endif
   endfor
+  return 1
 endfunction
 
 function! s:syntax()
@@ -395,6 +425,7 @@ function! s:syntax()
   syn match plugCommit /^  [0-9a-z]\{7} .*/ contains=plugRelDate,plugSha
   syn match plugSha /\(^  \)\@<=[0-9a-z]\{7}/ contained
   syn match plugRelDate /([^)]*)$/ contained
+  syn match plugNotLoaded /(not loaded)$/
   syn match plugError /^x.*/
   syn keyword Function PlugInstall PlugStatus PlugUpdate PlugClean
   hi def link plug1       Title
@@ -415,6 +446,8 @@ function! s:syntax()
   hi def link plugError   Error
   hi def link plugRelDate Comment
   hi def link plugSha     Identifier
+
+  hi def link plugNotLoaded Comment
 endfunction
 
 function! s:lpad(str, len)
@@ -435,6 +468,7 @@ function! s:prepare()
     else
       execute winnr . 'wincmd w'
     endif
+    setlocal modifiable
     silent %d _
   else
     vertical topleft new
@@ -449,7 +483,9 @@ function! s:prepare()
     call s:assign_name()
   endif
   silent! unmap <buffer> <cr>
-  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap cursorline
+  silent! unmap <buffer> L
+  silent! unmap <buffer> X
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap cursorline modifiable
   setf vim-plug
   call s:syntax()
 endfunction
@@ -508,7 +544,7 @@ endfunction
 function! s:finish(pull)
   call append(3, '- Finishing ... ')
   redraw
-  call s:helptags()
+  call plug#helptags()
   call plug#end()
   call setline(4, getline(4) . 'Done!')
   normal! gg
@@ -1048,6 +1084,7 @@ function! s:status()
   call append(1, '')
 
   let ecnt = 0
+  let unloaded = 0
   let [cnt, total] = [0, len(g:plugs)]
   for [name, spec] in items(g:plugs)
     if has_key(spec, 'uri')
@@ -1065,6 +1102,11 @@ function! s:status()
     endif
     let cnt += 1
     let ecnt += !valid
+    " `s:loaded` entry can be missing if PlugUpgraded
+    if valid && get(s:loaded, spec.dir, -1) == 0
+      let unloaded = 1
+      let msg .= ' (not loaded)'
+    endif
     call s:progress_bar(2, repeat('=', cnt), total)
     call append(3, s:format_message(valid, name, msg))
     normal! 2G
@@ -1072,6 +1114,24 @@ function! s:status()
   endfor
   call setline(1, 'Finished. '.ecnt.' error(s).')
   normal! gg
+  setlocal nomodifiable
+  if unloaded
+    echo "Press 'L' on each line to load plugin"
+    nnoremap <silent> <buffer> L :call <SID>status_load(line('.'))<cr>
+    xnoremap <silent> <buffer> L :call <SID>status_load(line('.'))<cr>
+  end
+endfunction
+
+function! s:status_load(lnum)
+  let line = getline(a:lnum)
+  let matches = matchlist(line, '^- \([^:]*\):.*(not loaded)$')
+  if !empty(matches)
+    let name = matches[1]
+    call plug#load(name)
+    setlocal modifiable
+    call setline(a:lnum, substitute(line, ' (not loaded)$', '', ''))
+    setlocal nomodifiable
+  endif
 endfunction
 
 function! s:is_preview_window_open()
@@ -1083,34 +1143,43 @@ function! s:is_preview_window_open()
   return 0
 endfunction
 
+function! s:find_name(lnum)
+  for lnum in reverse(range(1, a:lnum))
+    let line = getline(lnum)
+    if empty(line)
+      return ''
+    endif
+    let name = matchstr(line, '\(^- \)\@<=[^:]\+')
+    if !empty(name)
+      return name
+    endif
+  endfor
+  return ''
+endfunction
+
 function! s:preview_commit()
   if b:plug_preview < 0
     let b:plug_preview = !s:is_preview_window_open()
   endif
 
   let sha = matchstr(getline('.'), '\(^  \)\@<=[0-9a-z]\{7}')
-  if !empty(sha)
-    let lnum = line('.')
-    while lnum > 1
-      let lnum -= 1
-      let line = getline(lnum)
-      let name = matchstr(line, '\(^- \)\@<=[^:]\+')
-      if !empty(name)
-        let dir = g:plugs[name].dir
-        if isdirectory(dir)
-          execute 'cd '.s:esc(dir)
-          execute 'pedit '.sha
-          wincmd P
-          setlocal filetype=git buftype=nofile nobuflisted
-          execute 'silent read !git show '.sha
-          normal! ggdd
-          wincmd p
-          cd -
-        endif
-        break
-      endif
-    endwhile
+  if empty(sha)
+    return
   endif
+
+  let name = s:find_name(line('.'))
+  if empty(name) || !has_key(g:plugs, name) || !isdirectory(g:plugs[name].dir)
+    return
+  endif
+
+  execute 'cd '.s:esc(g:plugs[name].dir)
+  execute 'pedit '.sha
+  wincmd P
+  setlocal filetype=git buftype=nofile nobuflisted
+  execute 'silent read !git show '.sha
+  normal! ggdd
+  wincmd p
+  cd -
 endfunction
 
 function! s:section(flags)
@@ -1144,7 +1213,28 @@ function! s:diff()
 
   call setline(1, cnt == 0 ? 'No updates.' : 'Last update:')
   nnoremap <silent> <buffer> <cr> :silent! call <SID>preview_commit()<cr>
+  nnoremap <silent> <buffer> X    :call <SID>revert()<cr>
   normal! gg
+  setlocal nomodifiable
+  if cnt > 0
+    echo "Press 'X' on each block to revert the update"
+  endif
+endfunction
+
+function! s:revert()
+  let name = s:find_name(line('.'))
+  if empty(name) || !has_key(g:plugs, name) ||
+    \ input(printf('Revert the update of %s? (Y/N) ', name)) !~? '^y'
+    return
+  endif
+
+  execute 'cd '.s:esc(g:plugs[name].dir)
+  call system('git reset --hard HEAD@{1} && git checkout '.s:esc(g:plugs[name].branch))
+  cd -
+  setlocal modifiable
+  normal! dap
+  setlocal nomodifiable
+  echo 'Reverted.'
 endfunction
 
 let s:first_rtp = s:esc(get(split(&rtp, ','), 0, ''))

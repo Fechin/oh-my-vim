@@ -150,11 +150,13 @@ let NERDTreeHijackNetrw           = 1  " 当输入 [:e filename]不再显示netr
 let NERDTreeIgnore                = ['\.pyc','\.git','\.svn']
 let NERDTreeBookmarksFile         = $VIM.'\Data\NerdBookmarks.txt'
 
-" 当打开vim且没有文件时自动打开NERDTree
+if exists("loaded_nerd_tree")
+    autocmd VimEnter * NERDTree
+endif
+"当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
 " 只剩 NERDTree时自动关闭
-autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTreeType')
-                \ && b:NERDTreeType == 'primary') | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -173,7 +175,6 @@ imap <leader>w <esc>:w!<cr>
 inoremap <leader><TAB> <C-x><C-o>
 
 nnoremap <silent> <F8> :NERDTreeToggle<CR>
-nnoremap <silent> <F9> :TlistToggle<CR>
 nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
 
@@ -346,3 +347,4 @@ Plug 'honza/vim-snippets'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+
