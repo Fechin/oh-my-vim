@@ -11,6 +11,7 @@ vim 配置，私人订制，完善中。。。
   git clone https://github.com/Fechin/oh-my-vim.git ~/.vim
 ```
 
+
 可选参数：启动vim的命令，默认为“vim”,如./setup.sh gvim 或 ./setup.sh MacVim
 ```
   ./setup.sh
