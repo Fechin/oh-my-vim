@@ -1,6 +1,7 @@
 #! /bin/sh
 #
-# install.sh
+# setup.sh [vim]
+#     参数：启动vim的命令，默认为“vim”
 # Copyright (C) 2014 Fechin <lihuoqingfly@163.com>
 #
 # Distributed under terms of the MIT license.
@@ -13,14 +14,20 @@ if [[ ${OS} != "Darwin" && ${OS} != "Linux" ]]; then
     exit 1
 fi
 
-echo "安装需要花费一些时间，请等待..."
+# 取第一个参数作为启动vim命令
+VIM_COMMAND_NAME="vim"
+if [ $1 ]; then
+    VIM_COMMAND_NAME=$1
+fi
+
+echo "好东西在后头，你需要的只是等待..."
 
 # 插件目录,跟vimrc保持一致
 PLUG_DIR=$HOME/.vim/plugged
 
 # 清空插件目录
 if [ -d $PLUG_DIR ]; then
-    echo "清理插件目录：" $PLUG_DIR
+    echo "干掉插件目录：" $PLUG_DIR
     rm -rf $PLUG_DIR
 fi
 
@@ -35,22 +42,27 @@ fi
 if which brew >/dev/null; then
     sudo easy_install pyflakes
     brew install cmake npm
-    npm install jshint -g
 fi
 
+npm install jshint -g
+
 VIM_COMMAND="PlugInstall"
-mvim -c "$VIM_COMMAND"  -c "q" -c "q"
-
-# 定时检测vim是否退出
-while true; do
-  ps -ef | grep -v grep | grep -v "install.sh" | grep Vim | grep "$VIM_COMMAND" > /dev/null || break
-  echo "=\c"
-  sleep 3
-done
-
-# do something
 ERROR_PREFIX="\033[31m Error:\033[0m "
 
+$VIM_COMMAND_NAME -c "$VIM_COMMAND"  -c "q" -c "q"
+# 定时检测vim是否退出
+if [ $? -eq 0 ]; then
+    while true; do
+        ps -ef | grep -v grep | grep -v "install.sh" | grep Vim | grep "$VIM_COMMAND" > /dev/null || break
+        echo "=\c"
+        sleep 3
+    done
+else
+    echo "$ERROR_PREFIX 命令[$VIM_COMMAND_NAME]执行异常，烦请瞄一眼参数!"
+    exit 1
+fi
+
+# do something
 if [ -d "$PLUG_DIR/YouCompleteMe/" ]; then
     YCMD_DIR=$PLUG_DIR/YouCompleteMe/third_party/ycmd
     if [ ! -e "$YCMD_DIR/build.sh" ]; then
@@ -61,7 +73,7 @@ if [ -d "$PLUG_DIR/YouCompleteMe/" ]; then
     cd $PLUG_DIR/YouCompleteMe
     ./install.sh --clang-completer
 else
-    echo "$ERROR_PREFIX YouCompleteMe安装失败，请查阅：https://github.com/Valloric/YouCompleteMe"
+    echo "$ERROR_PREFIX YouCompleteMe安装失败，参考：https://github.com/Valloric/YouCompleteMe"
     exit 1
 fi
 
