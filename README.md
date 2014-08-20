@@ -1,6 +1,6 @@
 vim
 ===
-vim 配置，私人定制，完善中。。。
+vim 配置，私人订制，完善中。。。
 
 ### 说明
 兼容Linux、Mac
@@ -12,5 +12,6 @@ vim 配置，私人定制，完善中。。。
 ```
 
 ```
-  ./install.sh
+  ./setup.sh
 ```
+  可选参数：启动vim的命令，默认为“vim”,如./setup.sh gvim 或 ./setup.sh MacVim
