@@ -66,7 +66,7 @@ set fileencodings =ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set t_Co=256
 let g:airline_left_sep  = ''
 let g:airline_right_sep = ''
-let g:airline_theme     = 'kalisi'
+let g:airline_theme     = 'badwolf'
 
 
 "--> YouCompleteMe
@@ -160,21 +160,20 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-map <C-w> <C-w>w
-map <C-l> :tabn<CR>         " 下一个tab
-map <C-h> :tabp<CR>         " 上一个tab
 map <C-n> :tabnew<CR>       " 新tab
-map <C-k> :bn<CR>           " 下一个文件
-map <C-j> :bp<CR>           " 上一个文件
 map <C-j> <C-W>j            " 窗口切换下
 map <C-k> <C-W>k            " 窗口切换下
 map <C-h> <C-W>h            " 窗口切换左
 map <C-l> <C-W>l            " 窗口切换右
+
+map <silent>        gn :tabnext<CR>
+map <silent>        gp :tabprevious<CR>
+
 nmap <leader>w :w!<cr>
 imap <leader>w <esc>:w!<cr>
 inoremap <leader><TAB> <C-x><C-o>
 
-nnoremap <silent> <F8> :NERDTreeToggle<CR>
+nnoremap <F8> :NERDTreeToggle<CR>
 nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
 
@@ -347,4 +346,3 @@ Plug 'honza/vim-snippets'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-
