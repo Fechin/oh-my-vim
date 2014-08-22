@@ -9,7 +9,7 @@
 # 系统检测
 OS=$(uname)
 
-if [[ ${OS} != "Darwin" && ${OS} != "Linux" ]]; then
+if [ ${OS} != "Darwin" ] && [ ${OS} != "Linux" ]; then
     echo "暂时不支持${OS}系统!"
     exit 1
 fi
@@ -28,37 +28,45 @@ PLUG_DIR=$HOME/.vim/plugged
 # 清空插件目录
 if [ -d $PLUG_DIR ]; then
     echo "干掉插件目录：" $PLUG_DIR
-    rm -rf $PLUG_DIR
+    sudo rm -rf $PLUG_DIR
 fi
 
 # Linux 系统安装
-if which apt-get >/dev/null; then
+if hash apt-get 2>/dev/null; then
     sudo apt-get install -y build-essential cmake python-dev pyflakes npm
-elif which yum >/dev/null; then
+elif hash yum 2>/dev/null; then
     sudo yum install -y build-essential cmake python-dev pyflakes npm
 fi
 
 # Mac 系统安装
-if which brew >/dev/null; then
+if hash brew 2>/dev/null; then
     sudo easy_install pyflakes
-    brew install cmake npm
+    sudo brew install cmake npm
 fi
 
-npm install jshint -g
+# 安装JS语法检查工具
+JSHINT=/usr/local/bin/jshint
+hash jshint 2>/dev/null || {
+    sudo npm install jshint -g
+    if [ -e $JSHINT ]; then
+        sed -i '/env /s/node$/nodejs/g' $JSHINT
+    fi
+}
 
 VIM_COMMAND="PlugInstall"
 ERROR_PREFIX="\033[31m Error:\033[0m "
 
-$VIM_COMMAND_NAME -c "$VIM_COMMAND"  -c "q" -c "q"
+$VIM_COMMAND_NAME -c "PlugUpgrade" -c "$VIM_COMMAND"  -c "q" -c "q"
+
 # 定时检测vim是否退出
 if [ $? -eq 0 ]; then
     while true; do
-        ps -ef | grep -v grep | grep -v "install.sh" | grep Vim | grep "$VIM_COMMAND" > /dev/null || break
-        echo "=\c"
+        ps -ef | grep -v grep | grep -v "setup.sh" | grep "$VIM_COMMAND" > /dev/null || break
+        echo ">\c"
         sleep 3
     done
 else
-    echo "$ERROR_PREFIX 命令[$VIM_COMMAND_NAME]执行异常，烦请瞄一眼参数!"
+    echo "\n$ERROR_PREFIX 命令[$VIM_COMMAND_NAME]执行异常，烦请瞄一眼参数!"
     exit 1
 fi
 
@@ -73,7 +81,7 @@ if [ -d "$PLUG_DIR/YouCompleteMe/" ]; then
     cd $PLUG_DIR/YouCompleteMe
     ./install.sh --clang-completer
 else
-    echo "$ERROR_PREFIX YouCompleteMe安装失败，参考：https://github.com/Valloric/YouCompleteMe"
+    echo "\n$ERROR_PREFIX YouCompleteMe安装失败，参考：https://github.com/Valloric/YouCompleteMe"
     exit 1
 fi
 
