@@ -173,10 +173,9 @@ nmap <leader>w :w!<cr>
 imap <leader>w <esc>:w!<cr>
 inoremap <leader><TAB> <C-x><C-o>
 
-nnoremap <F8> :NERDTreeToggle<CR>
 nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
+nnoremap <F8> :NERDTreeToggle<CR>
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
-
 
 "--> 按按F5编译运
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -339,6 +338,8 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 " snippets
 Plug 'honza/vim-snippets'
+" 平滑滚动
+Plug 'joeytwiddle/sexy_scroller.vim'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
