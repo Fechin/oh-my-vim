@@ -60,6 +60,12 @@ set termencoding  =utf-8
 set fileencoding  =utf-8
 set fileencodings =ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
+" 全局忽略文件
+set wildignore+=*.jpg,*.bmp,*.gif  " binary images  
+set wildignore+=*.pyc              " Python byte code  
+set wildignore+=*.sw?              " Vim swap files
+set wildignore+=*.git,*.svn        " Version control tool
+
 
 "--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -147,7 +153,6 @@ let NERDTreeMinimalUI             = 1  " 不显示帮助面板
 let NERDTreeCaseSensitiveSort     = 1  " 让文件排列更有序
 let NERDTreeChDirMode             = 1  " 改变tree目录的同时改变工程的目录
 let NERDTreeHijackNetrw           = 1  " 当输入 [:e filename]不再显示netrw,而是显示nerdtree
-let NERDTreeIgnore                = ['\.pyc','\.git','\.svn']
 let NERDTreeBookmarksFile         = $VIM.'\Data\NerdBookmarks.txt'
 
 if exists("loaded_nerd_tree")
