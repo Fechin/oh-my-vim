@@ -41,7 +41,7 @@ fi
 # Mac 系统安装
 if hash brew 2>/dev/null; then
     sudo easy_install pyflakes
-    sudo brew install cmake npm
+    brew install cmake npm
 fi
 
 # 安装JS语法检查工具

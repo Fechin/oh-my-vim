@@ -182,7 +182,7 @@ nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <F8> :NERDTreeToggle<CR>
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
 
-"--> 按按F5编译运
+"--> 按F5编译运行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 map <F5> :call CompileAndRun()<CR>
 function! CompileAndRun()
@@ -316,7 +316,6 @@ endfunction
 
 "--> Vundle 插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-" 插件安装线程数
 call plug#begin('~/.vim/plugged')
 
 " 状态栏 
