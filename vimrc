@@ -65,6 +65,11 @@ set wildignore+=*.jpg,*.bmp,*.gif  " binary images
 set wildignore+=*.pyc              " Python byte code  
 set wildignore+=*.sw?              " Vim swap files
 set wildignore+=*.git,*.svn        " Version control tool
+set wildignore+=*.DS_Store         " OSX bullshit"
+
+" 全局忽略目录
+set wildignore+=classes
+set wildignore+=lib
 
 
 "--> AirLine
