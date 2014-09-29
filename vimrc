@@ -61,11 +61,12 @@ set fileencoding  =utf-8
 set fileencodings =ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
 " 全局忽略文件
-set wildignore+=*.jpg,*.bmp,*.gif  " binary images  
-set wildignore+=*.pyc              " Python byte code  
-set wildignore+=*.sw?              " Vim swap files
-set wildignore+=*.git,*.svn        " Version control tool
-set wildignore+=*.DS_Store         " OSX bullshit"
+set wildignore+=*.png,*.jpg,*.bmp,*.gif  " Binary images  
+set wildignore+=*.pyc                    " Python byte code  
+set wildignore+=*.sw?                    " Vim swap files
+set wildignore+=*.git,*.svn              " Version control tool
+set wildignore+=*.DS_Store               " OSX bullshit"
+set wildignore+=*.tar.gz,*.zip,*.rar     " Compressed file
 
 " 全局忽略目录
 set wildignore+=classes
