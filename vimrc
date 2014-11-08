@@ -1,4 +1,4 @@
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+
 " oh-my-vim .vimrc 私人订制
 "
 " Author : Fechin
@@ -95,7 +95,6 @@ let g:ycm_complete_in_comments                = 1 " 在注释中也可以补全
 let g:ycm_min_num_of_chars_for_completion     = 1 " 输入第一个字符就开始补全
 set completeopt-=preview                      " 在接受补全后不分裂出一个窗口显示接受的项
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif	" 离开插入模式后自动关闭预览窗口
-
 
 "--> UltiSnips模板生成
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -350,6 +349,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " 平滑滚动
 Plug 'joeytwiddle/sexy_scroller.vim'
+" 缩进对齐线
+Plug 'Yggdroot/indentLine'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
