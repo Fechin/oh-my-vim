@@ -53,6 +53,7 @@ autocmd InsertEnter * se cul    " 浅色高亮当前行
 let g:rehash256 = 1             " 配色高亮
 colorscheme molokai             " 设置主题配色
 set background=dark             " 试图使用深色背景上看起来舒服的颜色
+set pastetoggle=<F9>            " 切换粘贴模式"
 
 " 设置文件编码和文件格式
 set encoding      =utf-8
@@ -176,8 +177,9 @@ map <C-k> <C-W>k            " 窗口切换下
 map <C-h> <C-W>h            " 窗口切换左
 map <C-l> <C-W>l            " 窗口切换右
 
-map <silent>        gn :tabnext<CR>
-map <silent>        gp :tabprevious<CR>
+map <silent>        tn :tabnext<CR>
+map <silent>        tp :tabprevious<CR>
+
 
 nmap <leader>w :w!<cr>
 imap <leader>w <esc>:w!<cr>
