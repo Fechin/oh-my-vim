@@ -33,9 +33,9 @@ fi
 
 # Linux 系统安装
 if hash apt-get 2>/dev/null; then
-    sudo apt-get install -y build-essential cmake python-dev pyflakes npm
+    sudo apt-get install -y build-essential cmake python-dev pyflakes npm markdown
 elif hash yum 2>/dev/null; then
-    sudo yum install -y build-essential cmake python-dev pyflakes npm
+    sudo yum install -y build-essential cmake python-dev pyflakes npm markdown
 fi
 
 # Mac 系统安装

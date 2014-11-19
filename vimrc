@@ -90,7 +90,6 @@ let g:ycm_cache_omnifunc                      = 0 " 每次重新生成匹配项�
 let g:ycm_complete_in_comments                = 1 " 在注释中也可以补全
 let g:ycm_min_num_of_chars_for_completion     = 1 " 输入第一个字符就开始补全
 set completeopt-=preview                      " 在接受补全后不分裂出一个窗口显示接受的项
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif	" 离开插入模式后自动关闭预览窗口
 
 "--> UltiSnips模板生成
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -103,6 +102,8 @@ let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
 if has("autocmd")
     autocmd FileType * call UltiSnips#FileTypeChanged()
     autocmd BufNewFile,BufRead *.snippets setf snippets
+    autocmd InsertLeave * if pumvisible() == 0|pclose|endif	" 离开插入模式后自动关闭预览窗口
+    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=markdown
 endif
 
 function! g:UltiSnips_Complete()
@@ -216,12 +217,11 @@ function! CompileAndRun()
             exec '!open % > /dev/null 2>&1&'
         endif
         call feedkeys('\<CR>')
-    elseif &filetype == 'mkd'
-        exec '!~/.vim/markdown.pl % > %.html &'
+    elseif &filetype == 'markdown'
         if g:osName == 'linux'
-            exec '!gnome-open %.html  > /dev/null 2>&1'
+            exec '!markdown % > %.html && gnome-open %.html  > /dev/null 2>&1'
         elseif g:osName == 'mac'
-            exec '!open %.html > /dev/null 2>&1&'
+            exec '!markdown % > %.html && open %.html  > /dev/null 2>&1'
         endif
         call feedkeys('\<CR>')
     endif
