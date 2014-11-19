@@ -49,7 +49,6 @@ autocmd InsertEnter * se cul    " 浅色高亮当前行
 let g:rehash256 = 1             " 配色高亮
 set t_Co=256                    " 开启终端256色
 colorscheme molokai             " 设置主题配色
-set background=dark             " 试图使用深色背景上看起来舒服的颜色
 
 " 设置文件编码和文件格式
 set encoding      =utf-8
