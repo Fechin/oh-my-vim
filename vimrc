@@ -1,6 +1,7 @@
 
 " oh-my-vim .vimrc 私人订制
 "
+" Date   : 2014-07-09
 " Author : Fechin
 " E-mail : lihuoqingfly@163.com
 " URL    : https://github.com/Fechin/oh-my-vim.git
@@ -21,11 +22,9 @@ endif
 syntax on                       " 打开语法高亮
 filetype plugin indent on       " 启用自动补全
 set nocompatible                " 关闭兼容模式
-set backspace=2                 " 设置退格键可用
 set autoindent                  " 自动对齐
 set tabstop=4                   " 设置Tab为4个空格
 set shiftwidth=4                " 自动缩减空格长度
-set ai!                         " 设置自动缩进
 set smartindent                 " 智能自动缩进
 set smarttab                    " 智能Tab
 set mousemodel=popup            " 允许鼠标右键
@@ -35,15 +34,12 @@ set hlsearch                    " 开启高亮显示结果
 set ignorecase                  " 搜索忽略大小写
 set shortmess=atI               " 不显示乌干达儿童捐助提示
 set nowrapscan                  " 搜索到文件两端时不重新搜索
-set nosplitbelow                " 窗口的分割会把新窗口放到当前窗口之下
-set nosplitright                " 窗口的分割会把新窗口放到当前窗口之右
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set laststatus=2                " 开启状态栏信息
-set cmdheight=1                 " 命令行的高度
-set writebackup                 " 设置无备份文件
+set cmdheight=1                 " 命令行栏的高度
 set nobackup                    " 不生成备份文件
 set noswapfile                  " 不生成交换文件
-set expandtab                   " 将Tab自动转化成空格 [需要输入真正的Tab键时，使用 Ctrl+V + Tab]
+set expandtab                   " 将Tab转换成空格[需输入真正的tab时，使用Ctrl+V, Tab]
 set showmatch                   " 显示括号配对情况
 set showcmd                     " 显示命令
 set noerrorbells                " 关闭提示音
@@ -51,9 +47,9 @@ set wildmenu                    " 在状态栏显示匹配命令
 set iskeyword+=_,$,@,%,#,-      " 关键字不换行
 autocmd InsertEnter * se cul    " 浅色高亮当前行
 let g:rehash256 = 1             " 配色高亮
+set t_Co=256                    " 开启终端256色
 colorscheme molokai             " 设置主题配色
 set background=dark             " 试图使用深色背景上看起来舒服的颜色
-set pastetoggle=<F9>            " 切换粘贴模式"
 
 " 设置文件编码和文件格式
 set encoding      =utf-8
@@ -76,7 +72,6 @@ set wildignore+=lib
 
 "--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-set t_Co=256
 let g:airline_left_sep  = ''
 let g:airline_right_sep = ''
 let g:airline_theme     = 'badwolf'
@@ -180,18 +175,18 @@ map <C-l> <C-W>l            " 窗口切换右
 map <silent>        tn :tabnext<CR>
 map <silent>        tp :tabprevious<CR>
 
+map <F5> :call CompileAndRun()<CR>
+set pastetoggle=<F6>            " 切换粘贴模式"
+nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
+nnoremap <F8> :NERDTreeToggle<CR>
 
 nmap <leader>w :w!<cr>
 imap <leader>w <esc>:w!<cr>
 inoremap <leader><TAB> <C-x><C-o>
-
-nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
-nnoremap <F8> :NERDTreeToggle<CR>
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
 
 "--> 按F5编译运行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-map <F5> :call CompileAndRun()<CR>
 function! CompileAndRun()
     exec 'w'
     if     &filetype == 'java' 
@@ -216,17 +211,17 @@ function! CompileAndRun()
         exec '!ruby %:t'
     elseif &filetype == 'html'
         if g:osName == 'linux'
-            exec '!gnome-open % &'
+            exec '!gnome-open %  > /dev/null 2>&1'
         elseif g:osName == 'mac'
-            exec '!open % &'
+            exec '!open % > /dev/null 2>&1&'
         endif
         call feedkeys('\<CR>')
     elseif &filetype == 'mkd'
         exec '!~/.vim/markdown.pl % > %.html &'
         if g:osName == 'linux'
-            exec '!gnome-open %.html &'
+            exec '!gnome-open %.html  > /dev/null 2>&1'
         elseif g:osName == 'mac'
-            exec '!open %.html &'
+            exec '!open %.html > /dev/null 2>&1&'
         endif
         call feedkeys('\<CR>')
     endif
