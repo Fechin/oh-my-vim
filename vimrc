@@ -71,10 +71,10 @@ set wildignore+=lib
 
 "--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:airline_left_sep  = ''
-let g:airline_right_sep = ''
 let g:airline_theme     = 'badwolf'
-
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
+let g:airline_powerline_fonts = 1
+let g:Powerline_symbols = 'fancy'
 
 "--> YouCompleteMe
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
