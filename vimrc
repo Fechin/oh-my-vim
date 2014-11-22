@@ -72,9 +72,12 @@ set wildignore+=lib
 "--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 let g:airline_theme     = 'badwolf'
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
 let g:airline_powerline_fonts = 1
 let g:Powerline_symbols = 'fancy'
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline_section_b = 'Show Me The Code'
 
 "--> YouCompleteMe
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -264,56 +267,6 @@ if has('autocmd')
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$')
     \| exe "normal! g'\"" | endif
 endif
-
-"--> 标签样式
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-hi TabLineFill term=none
-hi TabLineFill ctermfg=DarkGrey
-hi TabLineFill guifg=#777777
-
-hi TabLineSel term=inverse
-hi TabLineSel cterm=none ctermfg=yellow ctermbg=Black
-hi TabLineSel gui=none guifg=yellow guibg=Black
-
-set tabline=%!MyTabLine()
-
-function! MyTabLine()
-    let s = ''
-    for i in range(tabpagenr('$'))
-        " 选择高亮
-        if i + 1 == tabpagenr()
-            let s .= '%#TabLineSel#'
-        else
-            let s .= '%#TabLine#'
-        endif
-        " 设置标签页号 (用于鼠标点击)
-        let s .= '%' . (i + 1) . 'T'
-        " MyTabLabel() 提供完整路径标签 MyShortTabLabel 提供文件名标签
-        let s .= ' %{MyShortTabLabel(' . (i + 1) . ')} '
-    endfor
-    " 最后一个标签页之后用 TabLineFill 填充并复位标签页号
-    let s .= '%#TabLineFill#%T'
-    " 右对齐用于关闭当前标签页的标签
-    if tabpagenr('$') > 1
-        let s .= '%=%#TabLine#%999Xㄨ'
-    endif
-    return s
-endfunction
-
-" 文件名标签
-function! MyShortTabLabel(n)
-    let buflist = tabpagebuflist(a:n)
-    let label = bufname (buflist[tabpagewinnr (a:n) -1])
-    let filename = fnamemodify (label, ':t')
-    return filename
-endfunction
-
-" 完整路径标签
-function! MyTabLabel(n)
-    let buflist = tabpagebuflist(a:n)
-    let winnr = tabpagewinnr(a:n)
-    return bufname(buflist[winnr - 1])
-endfunction
 
 "--> Vundle 插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
