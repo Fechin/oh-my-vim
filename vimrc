@@ -1,4 +1,3 @@
-
 " oh-my-vim .vimrc 私人订制
 "
 " Date   : 2014-07-09
@@ -77,7 +76,7 @@ let g:Powerline_symbols = 'fancy'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline_section_b = 'Show Me The Code'
+let g:airline_section_b = 'SHOW ME THE CODE'
 
 "--> YouCompleteMe
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -250,9 +249,9 @@ endif
 
 if exists('&guifont')
     if g:osName == 'linux'
-        set guifont =Droid\ Sans\ Mono\ 12
+        set guifont=Droid\ Sans\ Mono\ 12
     elseif g:osName == 'mac' 
-        set guifont =Monaco:h12
+        set guifont=Source_Code_Pro_for_Powerline:h14
     end
 endif
 
