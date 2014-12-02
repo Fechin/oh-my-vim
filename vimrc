@@ -70,13 +70,13 @@ set wildignore+=lib
 
 "--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:airline_theme     = 'badwolf'
-let g:airline_powerline_fonts = 1
-let g:Powerline_symbols = 'fancy'
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme                          = 'badwolf'
+let g:airline_powerline_fonts                = 1
+let g:Powerline_symbols                      = 'fancy'
+let g:airline#extensions#whitespace#enabled  = 0
+let g:airline#extensions#tabline#enabled     = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline_section_b = 'SHOW ME THE CODE'
+let g:airline_section_b                      = 'SHOW ME THE CODE'
 
 "--> YouCompleteMe
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -125,38 +125,37 @@ au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=
 
 "--> 语法检查
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:syntastic_check_on_open          = 1
-let g:syntastic_enable_signs           = 1
-let g:syntastic_javascript_checkers    = ['jshint']
-let g:syntastic_python_checkers        = ['pyflakes']
-let g:syntastic_html_checkers          = ['jshint']
-let g:syntastic_error_symbol           = "✗"
-let g:syntastic_warning_symbol         = '⚠'
+let g:syntastic_check_on_open       = 1
+let g:syntastic_enable_signs        = 1
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_python_checkers     = ['pyflakes']
+let g:syntastic_html_checkers       = ['jshint']
+let g:syntastic_error_symbol        = "✗"
+let g:syntastic_warning_symbol      = '⚠'
 
 
-"--> NERDCommenter
+"--> Tcomment
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let NERDSpaceDelims = 1                " 自动添加前置空格
-let g:mapleader     = ','              " NERD Commenter 按键
-
+vmap <Enter> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 "--> vim-template
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:username                    = 'Fechin'
-let g:email                       = 'lihuoqingfly@163.com'
-let g:template_dir                = '~/.vim/templates'
+let g:username     = 'Fechin'
+let g:email        = 'lihuoqingfly@163.com'
+let g:template_dir = '~/.vim/templates'
 
 
 "--> NERDTree
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let NERDTreeAutoCenter            = 1  " 窗口居中 
-let NERDTreeShowBookmarks         = 1  " 显示书签
-let NERDChristmasTree             = 1  " 让树更好看
-let NERDTreeMinimalUI             = 1  " 不显示帮助面板
-let NERDTreeCaseSensitiveSort     = 1  " 让文件排列更有序
-let NERDTreeChDirMode             = 1  " 改变tree目录的同时改变工程的目录
-let NERDTreeHijackNetrw           = 1  " 当输入 [:e filename]不再显示netrw,而是显示nerdtree
-let NERDTreeBookmarksFile         = $VIM.'\Data\NerdBookmarks.txt'
+let NERDTreeAutoCenter        = 1  " 窗口居中
+let NERDTreeShowBookmarks     = 1  " 显示书签
+let NERDChristmasTree         = 1  " 让树更好看
+let NERDTreeMinimalUI         = 1  " 不显示帮助面板
+let NERDTreeCaseSensitiveSort = 1  " 让文件排列更有序
+let NERDTreeChDirMode         = 1  " 改变tree目录的同时改变工程的目录
+let NERDTreeHijackNetrw       = 1  " 当输入 [:e filename]不再显示netrw,而是显示nerdtree
+let NERDTreeBookmarksFile     = $VIM.'\Data\NerdBookmarks.txt'
 
 if exists("loaded_nerd_tree")
     autocmd VimEnter * NERDTree
@@ -168,6 +167,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let g:mapleader = ','
 map <C-n> :tabnew<CR>       " 新tab
 map <C-j> <C-W>j            " 窗口切换下
 map <C-k> <C-W>k            " 窗口切换下
@@ -279,8 +279,6 @@ Plug 'vim-scripts/The-NERD-tree'
 Plug 'mattn/emmet-vim'
 " 搜索文件
 Plug 'kien/ctrlp.vim'
-" 代码注释
-Plug 'scrooloose/nerdcommenter'
 " 新建文件自动加载模板
 Plug 'aperezdc/vim-template'
 " 文本更衣
@@ -299,6 +297,10 @@ Plug 'honza/vim-snippets'
 Plug 'joeytwiddle/sexy_scroller.vim'
 " 缩进对齐线
 Plug 'Yggdroot/indentLine'
+" 文本智能对齐
+Plug 'junegunn/vim-easy-align'
+" 代码注释
+Plug 'tomtom/tcomment_vim'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
