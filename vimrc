@@ -18,9 +18,10 @@ endif
 
 "--> 基本设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-syntax on                       " 打开语法高亮
-filetype plugin indent on       " 启用自动补全
-set nocompatible                " 关闭兼容模式
+syntax enable                   " 打开语法高亮
+syntax on                       " 允许按指定主题进行语法高亮，而非默认高亮主题
+filetype plugin indent on       " 不同文件类型加载对应的插件,使用对应的缩进
+set nocompatible                " 关闭Vi兼容模式
 set autoindent                  " 自动对齐
 set tabstop=4                   " 设置Tab为4个空格
 set shiftwidth=4                " 自动缩减空格长度
@@ -33,7 +34,7 @@ set hlsearch                    " 开启高亮显示结果
 set ignorecase                  " 搜索忽略大小写
 set shortmess=atI               " 不显示乌干达儿童捐助提示
 set nowrapscan                  " 搜索到文件两端时不重新搜索
-set hidden                      " 允许在有未保存的修改时切换缓冲区
+set hidden                      " 有未保存的更改时可以切换缓冲区
 set laststatus=2                " 开启状态栏信息
 set cmdheight=1                 " 命令行栏的高度
 set nobackup                    " 不生成备份文件
@@ -44,10 +45,9 @@ set showcmd                     " 显示命令
 set noerrorbells                " 关闭提示音
 set wildmenu                    " 在状态栏显示匹配命令
 set iskeyword+=_,$,@,%,#,-      " 关键字不换行
-autocmd InsertEnter * se cul    " 浅色高亮当前行
 let g:rehash256 = 1             " 配色高亮
 set t_Co=256                    " 开启终端256色
-colorscheme molokai             " 设置主题配色
+colorscheme molokai             " 指定配色方案
 
 " 设置文件编码和文件格式
 set encoding      =utf-8
@@ -74,9 +74,9 @@ let g:airline_theme                          = 'badwolf'
 let g:airline_powerline_fonts                = 1
 let g:Powerline_symbols                      = 'fancy'
 let g:airline#extensions#whitespace#enabled  = 0
-let g:airline#extensions#tabline#enabled     = 1
+let g:airline#extensions#tabline#enabled     = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline_section_b                      = 'SHOW ME THE CODE'
+let g:airline_section_b                      = 'NEVER STOP THE BEAT'
 
 "--> YouCompleteMe
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -99,14 +99,6 @@ let g:UltiSnipsJumpForwardTrigger  = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
 
-" 自动调用 UltiSnipsAddFileTypes filetype
-if has("autocmd")
-    autocmd FileType * call UltiSnips#FileTypeChanged()
-    autocmd BufNewFile,BufRead *.snippets setf snippets
-    autocmd InsertLeave * if pumvisible() == 0|pclose|endif	" 离开插入模式后自动关闭预览窗口
-    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=markdown
-endif
-
 function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
@@ -121,7 +113,29 @@ function! g:UltiSnips_Complete()
     endif
     return ""
 endfunction
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+autocmd BufNewFile,BufRead *.snippets setf snippets
+" 自动调用 UltiSnipsAddFileTypes filetype
+autocmd FileType * call UltiSnips#FileTypeChanged()
+autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+
+
+"--> 自动执行
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+augroup defaults
+    " Clear augroup
+    autocmd!
+	" 离开插入模式后自动关闭预览窗口
+    autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+    " 浅色高亮当前行
+    autocmd InsertEnter * se cul
+    autocmd BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=markdown
+    " 打开文件时，自动跳转到光标最后所在的位置
+    if has('autocmd')
+      autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$')
+        \| exe "normal! g'\"" | endif
+    endif
+augroup END
+
 
 "--> 语法检查
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -232,7 +246,6 @@ endfunction
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 if has('gui_running')
     set guioptions-=m " 隐藏菜单栏
-    set guioptions-=t " 隐藏菜单栏中的撕下此菜单
     set guioptions-=T " 隐藏工具栏
     set guioptions-=L " 隐藏左侧滚动条
     set guioptions-=r " 隐藏右侧滚动条
@@ -241,30 +254,18 @@ if has('gui_running')
     if has('gui_macvim')
         set imdisable " Set input method off
         set autochdir " 自动切换到文件当前目录
-
     endif
 else
     set ambiwidth=single
 endif
 
+" 字体设置
 if exists('&guifont')
     if g:osName == 'linux'
-        set guifont=Droid\ Sans\ Mono\ 12
+        set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
     elseif g:osName == 'mac' 
         set guifont=Source_Code_Pro_for_Powerline:h14
     end
-endif
-
-" VIMRC保存生效
-augroup reload_vimrc
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
-
-" 打开文件时，自动跳转到光标最后所在的位置
-if has('autocmd')
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$')
-    \| exe "normal! g'\"" | endif
 endif
 
 "--> Vundle 插件管理
