@@ -22,17 +22,17 @@ VIM_COMMAND=${1:-vim}
 # 插件目录,跟vimrc中的保持一致
 PLUG_DIR=${HOME}/.vim/plugged
 
-echo -e "将为你安装依赖包："
+echo "将为你安装依赖包："
 dependsmsg() {
-    echo -e "-----------------------------\t----------------------------"
-    echo -e "\t[*] build-essential\tDetails of package information"
-    echo -e "\t[*] cmake          \tCross-Platform Makefile Generator"
-    echo -e "\t[*] python-dev     \tDevelopment tools for building Python modules"
-    echo -e "\t[*] pyflakes       \tSimple Python 2 source checker"
-    echo -e "\t[*] npm            \tNode package manager"
-    echo -e "\t[*] markdown       \tConvert text to HTML"
-    echo -e "\t[*] git            \tPerl interface to the Git version control system"
-    echo -e "\t[*] easy_install   \tManage Python packages"
+    echo "-----------------------------\t----------------------------"
+    echo "\t[*] build-essential\tDetails of package information"
+    echo "\t[*] cmake          \tCross-Platform Makefile Generator"
+    echo "\t[*] python-dev     \tDevelopment tools for building Python modules"
+    echo "\t[*] pyflakes       \tSimple Python 2 source checker"
+    echo "\t[*] npm            \tNode package manager"
+    echo "\t[*] markdown       \tConvert text to HTML"
+    echo "\t[*] git            \tPerl interface to the Git version control system"
+    echo "\t[*] easy_install   \tManage Python packages"
 };dependsmsg
 
 notify() {
