@@ -6,36 +6,47 @@
 #
 # Distributed under terms of the MIT license.
 
+set -o errexit
+
 # 系统检测
 OS=$(uname)
 
 if [ ${OS} != "Darwin" ] && [ ${OS} != "Linux" ]; then
-    echo "暂时不支持${OS}系统!"
+    echo "暂时不支持${OS}系统环境!"
     exit 1
 fi
 
-# 取第一个参数作为启动vim命令
-VIM_COMMAND_NAME="vim"
-if [ $1 ]; then
-    VIM_COMMAND_NAME=$1
-fi
+# 取第一个参数作为启动vim命令,如果为空默认“vim”
+VIM_COMMAND=${1:-vim}
 
-echo "好东西在后头，你需要的只是等待..."
+# 插件目录,跟vimrc中的保持一致
+PLUG_DIR=${HOME}/.vim/plugged
 
-# 插件目录,跟vimrc保持一致
-PLUG_DIR=$HOME/.vim/plugged
+echo -e "将为你安装依赖包："
+dependsmsg() {
+    echo -e "-----------------------------\t----------------------------"
+    echo -e "\t[*] build-essential\tDetails of package information"
+    echo -e "\t[*] cmake          \tCross-Platform Makefile Generator"
+    echo -e "\t[*] python-dev     \tDevelopment tools for building Python modules"
+    echo -e "\t[*] pyflakes       \tSimple Python 2 source checker"
+    echo -e "\t[*] npm            \tNode package manager"
+    echo -e "\t[*] markdown       \tConvert text to HTML"
+    echo -e "\t[*] git            \tPerl interface to the Git version control system"
+    echo -e "\t[*] easy_install   \tManage Python packages"
+};dependsmsg
 
-# 清空插件目录
-if [ -d $PLUG_DIR ]; then
-    echo "干掉插件目录：" $PLUG_DIR
-    sudo rm -rf $PLUG_DIR
-fi
+notify() {
+    echo $1
+    if hash notify-send 2>/dev/null; then
+        notify-send -i "notification-message-im" "ohmyvim message" "$1"
+    fi
+}
 
 # Linux 系统安装
 if hash apt-get 2>/dev/null; then
-    sudo apt-get install -y build-essential cmake python-dev pyflakes npm markdown
+    sudo apt-get install -y build-essential cmake python-dev pyflakes npm markdown git
 elif hash yum 2>/dev/null; then
-    sudo yum install -y build-essential cmake python-dev pyflakes npm markdown
+    sudo yum install -y build-essential cmake python-dev pyflakes npm markdown git
 fi
 
 # Mac 系统安装
@@ -53,36 +64,34 @@ hash jshint 2>/dev/null || {
     fi
 }
 
-VIM_COMMAND="PlugInstall"
-ERROR_PREFIX="\033[31m Error:\033[0m "
+PLUGINSTALL="PlugInstall"
 
-$VIM_COMMAND_NAME -c "PlugUpgrade" -c "$VIM_COMMAND"  -c "q" -c "q"
+${VIM_COMMAND} -c "PlugUpgrade" -c "${PLUGINSTALL}"  -c "q" -c "q"
 
 # 定时检测vim是否退出
 if [ $? -eq 0 ]; then
     while true; do
-        ps -ef | grep -v grep | grep -v "setup.sh" | grep "$VIM_COMMAND" > /dev/null || break
+        ps -ef | grep -v grep | grep -v "setup.sh" | grep "${PLUGINSTALL}" > /dev/null || break
         echo ">\c"
         sleep 3
     done
 else
-    echo "\n$ERROR_PREFIX 命令[$VIM_COMMAND_NAME]执行异常，烦请瞄一眼参数!"
+    notify "command [${VIM_COMMAND}] exception!"
     exit 1
 fi
 
 # do something
-if [ -d "$PLUG_DIR/YouCompleteMe/" ]; then
-    YCMD_DIR=$PLUG_DIR/YouCompleteMe/third_party/ycmd
-    if [ ! -e "$YCMD_DIR/build.sh" ]; then
-        cd $YCMD_DIR
+if [ -d "${PLUG_DIR}/YouCompleteMe/" ]; then
+    YCM_DIR=${PLUG_DIR}/YouCompleteMe/third_party/ycmd
+    if [ ! -e "${YCM_DIR}/build.sh" ]; then
+        cd ${YCM_DIR}
         git submodule update --init --recursive
     fi
 
-    cd $PLUG_DIR/YouCompleteMe
+    cd ${PLUG_DIR}/YouCompleteMe
     ./install.sh --clang-completer
 else
-    echo "\n$ERROR_PREFIX YouCompleteMe安装失败，参考：https://github.com/Valloric/YouCompleteMe"
+    notify "YouCompleteMe install error，link：https://github.com/Valloric/YouCompleteMe"
     exit 1
 fi
-
-echo "久等，现在你能做的不止是煮咖啡！！"
+notify "Success to install oh-my-vim，never stop the beat, enjoy it please!"
