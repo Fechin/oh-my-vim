@@ -12,7 +12,7 @@ set -o errexit
 OS=$(uname)
 
 if [ ${OS} != "Darwin" ] && [ ${OS} != "Linux" ]; then
-    echo "暂时不支持${OS}系统环境!"
+    echo -e "暂时不支持${OS}系统环境!"
     exit 1
 fi
 
@@ -22,21 +22,24 @@ VIM_COMMAND=${1:-vim}
 # 插件目录,跟vimrc中的保持一致
 PLUG_DIR=${HOME}/.vim/plugged
 
-echo "将为你安装依赖包："
 dependsmsg() {
-    echo "-----------------------------\t----------------------------"
-    echo "\t[*] build-essential\tDetails of package information"
-    echo "\t[*] cmake          \tCross-Platform Makefile Generator"
-    echo "\t[*] python-dev     \tDevelopment tools for building Python modules"
-    echo "\t[*] pyflakes       \tSimple Python 2 source checker"
-    echo "\t[*] npm            \tNode package manager"
-    echo "\t[*] markdown       \tConvert text to HTML"
-    echo "\t[*] git            \tPerl interface to the Git version control system"
-    echo "\t[*] easy_install   \tManage Python packages"
+    echo -e "-----------------------------------------------------------"
+    echo -e "---\t视网络情况，安装过程可能比较漫长，请耐心等待!\t---"
+    echo -e "-----------------------------------------------------------"
+    echo -e "将为你安装依赖包："
+    echo -e "-----------------------------\t----------------------------"
+    echo -e "\t[*] build-essential\tDetails of package information"
+    echo -e "\t[*] cmake          \tCross-Platform Makefile Generator"
+    echo -e "\t[*] python-dev     \tDevelopment tools for building Python modules"
+    echo -e "\t[*] pyflakes       \tSimple Python 2 source checker"
+    echo -e "\t[*] npm            \tNode package manager"
+    echo -e "\t[*] markdown       \tConvert text to HTML"
+    echo -e "\t[*] git            \tPerl interface to the Git version control system"
+    echo -e "\t[*] easy_install   \tManage Python packages"
 };dependsmsg
 
 notify() {
-    echo $1
+    echo -e "\e[30;48;5;82m Message: \e[0m \e[40;38;5;82m $1 \e[0m "
     if hash notify-send 2>/dev/null; then
         notify-send -i "notification-message-im" "ohmyvim message" "$1"
     fi
@@ -66,13 +69,18 @@ hash jshint 2>/dev/null || {
 
 PLUGINSTALL="PlugInstall"
 
-${VIM_COMMAND} -c "PlugUpgrade" -c "${PLUGINSTALL}"  -c "q" -c "q"
+if hash ${VIM_COMMAND} 2>/dev/null; then
+    ${VIM_COMMAND} -c "PlugUpgrade" -c "${PLUGINSTALL}"  -c "q" -c "q"
+else
+    notify "command not found: ${VIM_COMMAND}"
+    exit 1
+fi
 
 # 定时检测vim是否退出
 if [ $? -eq 0 ]; then
     while true; do
         ps -ef | grep -v grep | grep -v "setup.sh" | grep "${PLUGINSTALL}" > /dev/null || break
-        echo ">\c"
+        echo -e ">\c"
         sleep 3
     done
 else
