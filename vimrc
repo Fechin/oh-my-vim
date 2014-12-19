@@ -8,13 +8,12 @@
 
 "--> 系统检测
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:osName = ''
-let g:osDictionary = {'Linux':'linux','Darwin':'mac'}
-if has('unix')
-    let s:uname = system('echo -n $(uname)')
-    let g:osName = !v:shell_error ? g:osDictionary[s:uname] : ''
+let g:osName = ""
+let g:osDictionary = {"Linux":"linux","Darwin":"mac"}
+if has("unix")
+    let s:uname = system("echo -n $(uname)")
+    let g:osName = !v:shell_error ? g:osDictionary[s:uname] : ""
 endif
-
 
 "--> 基本设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -60,44 +59,37 @@ set wildignore+=*.png,*.jpg,*.bmp,*.gif  " Binary images
 set wildignore+=*.pyc                    " Python byte code  
 set wildignore+=*.sw?                    " Vim swap files
 set wildignore+=*.git,*.svn              " Version control tool
-set wildignore+=*.DS_Store               " OSX bullshit"
+set wildignore+=*.DS_Store               " OSX bullshit
 set wildignore+=*.tar.gz,*.zip,*.rar     " Compressed file
 
 " 全局忽略目录
 set wildignore+=classes
 set wildignore+=lib
 
-
 "--> AirLine
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:airline_theme                          = 'badwolf'
+let g:airline_theme                          = "badwolf"
 let g:airline_powerline_fonts                = 1
-let g:Powerline_symbols                      = 'fancy'
+let g:Powerline_symbols                      = "fancy"
 let g:airline#extensions#whitespace#enabled  = 0
 let g:airline#extensions#tabline#enabled     = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline_section_b                      = 'NEVER STOP THE BEAT'
+let g:airline_section_b                      = "NEVER STOP THE BEAT"
 
 "--> YouCompleteMe
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:ycm_global_ycm_extra_conf               = '$VIM/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf                  = 0 " 打开vim时不再询问是否加载ycm_extra_conf.py配置
-let g:ycm_collect_identifiers_from_tag_files  = 1 " 使用ctags生成的tags文件
-let g:syntastic_always_populate_loc_list      = 1
-
-let g:ycm_cache_omnifunc                      = 0 " 禁止缓存匹配项,每次都重新生成匹配项
-let g:ycm_seed_identifiers_with_syntax        = 1 " 开启语义补全
-let g:ycm_cache_omnifunc                      = 0 " 每次重新生成匹配项，禁止缓存匹配项
-let g:ycm_complete_in_comments                = 1 " 在注释中也可以补全
-let g:ycm_min_num_of_chars_for_completion     = 1 " 输入第一个字符就开始补全
-set completeopt-=preview                      " 在接受补全后不分裂出一个窗口显示接受的项
+let g:ycm_confirm_extra_conf              = 0 " 打开vim时不再询问是否加载ycm_extra_conf.py配置
+let g:ycm_cache_omnifunc                  = 0 " 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_seed_identifiers_with_syntax    = 1 " 开启语义补全
+let g:ycm_complete_in_comments            = 1 " 在注释中也可以补全
+let g:ycm_min_num_of_chars_for_completion = 1 " 输入第一个字符就开始补全
 
 "--> UltiSnips模板生成
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:UltiSnipsExpandTrigger       = '<tab>'
-let g:UltiSnipsJumpForwardTrigger  = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+let g:UltiSnipsExpandTrigger       = "<tab>"
+let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories  = ["UltiSnips"]
 
 function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
@@ -118,7 +110,6 @@ autocmd BufNewFile,BufRead *.snippets setf snippets
 autocmd FileType * call UltiSnips#FileTypeChanged()
 autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
-
 "--> 自动执行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 augroup defaults
@@ -130,23 +121,22 @@ augroup defaults
     autocmd InsertEnter * se cul
     autocmd BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=markdown
     " 打开文件时，自动跳转到光标最后所在的位置
-    if has('autocmd')
-      autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$')
+    if has("autocmd")
+      autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
         \| exe "normal! g'\"" | endif
     endif
 augroup END
 
-
 "--> 语法检查
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:syntastic_check_on_open       = 1
-let g:syntastic_enable_signs        = 1
-let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_python_checkers     = ['pyflakes']
-let g:syntastic_html_checkers       = ['jshint']
-let g:syntastic_error_symbol        = "✗"
-let g:syntastic_warning_symbol      = '⚠'
-
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_open            = 1
+let g:syntastic_enable_signs             = 1
+let g:syntastic_javascript_checkers      = ["jshint"]
+let g:syntastic_python_checkers          = ["pyflakes"]
+let g:syntastic_html_checkers            = ["jshint"]
+let g:syntastic_error_symbol             = "✗"
+let g:syntastic_warning_symbol           = "⚠"
 
 "--> Tcomment
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -155,10 +145,8 @@ nmap ga <Plug>(EasyAlign)
 
 "--> vim-template
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:username     = 'Fechin'
-let g:email        = 'lihuoqingfly@163.com'
-let g:template_dir = '~/.vim/templates'
-
+let g:username     = "Fechin"
+let g:email        = "lihuoqingfly@163.com"
 
 "--> NERDTree
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -169,7 +157,7 @@ let NERDTreeMinimalUI         = 1  " 不显示帮助面板
 let NERDTreeCaseSensitiveSort = 1  " 让文件排列更有序
 let NERDTreeChDirMode         = 1  " 改变tree目录的同时改变工程的目录
 let NERDTreeHijackNetrw       = 1  " 当输入 [:e filename]不再显示netrw,而是显示nerdtree
-let NERDTreeBookmarksFile     = $VIM.'\Data\NerdBookmarks.txt'
+let NERDTreeBookmarksFile     = $VIM."\Data\NerdBookmarks.txt"
 
 if exists("loaded_nerd_tree")
     autocmd VimEnter * NERDTree
@@ -181,7 +169,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 "--> 按键映射
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:mapleader = ','
+let g:mapleader = ","
 map <C-n> :tabnew<CR>       " 新tab
 map <C-j> <C-W>j            " 窗口切换下
 map <C-k> <C-W>k            " 窗口切换下
@@ -192,7 +180,7 @@ map <silent>        tn :tabnext<CR>
 map <silent>        tp :tabprevious<CR>
 
 map <F5> :call CompileAndRun()<CR>
-set pastetoggle=<F6>            " 切换粘贴模式"
+set pastetoggle=<F6>         " 切换粘贴模式
 nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <F8> :NERDTreeToggle<CR>
 
@@ -204,54 +192,54 @@ nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd �
 "--> 按F5编译运行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 function! CompileAndRun()
-    exec 'w'
-    if     &filetype == 'java' 
-        exec '!javac %:t && java %:r'
-    elseif &filetype == 'c'
-        exec '!gcc -Wall -std=c11 -o %:r %:t && ./%:r'
-    elseif &filetype == 'cpp'
-        exec '!g++ -Wall -std=c++11 -o %:r %:t && ./%:r'
-    elseif &filetype == 'go'
-        exec '!go build %:t && ./%:r'
-    elseif &filetype == 'sh'
-        exec '!bash %:t'
-    elseif &filetype == 'lua'
-        exec '!lua %:t'
-    elseif &filetype == 'perl'
-        exec '!perl %:t'
-    elseif &filetype == 'php'
-        exec '!php %:t'
-    elseif &filetype == 'python'
-        exec '!python %:t'
-    elseif &filetype == 'ruby'
-        exec '!ruby %:t'
-    elseif &filetype == 'html'
-        if g:osName == 'linux'
-            exec '!gnome-open %  > /dev/null 2>&1'
-        elseif g:osName == 'mac'
-            exec '!open % > /dev/null 2>&1&'
+    exec "w"
+    if     &filetype == "java" 
+        exec "!javac %:t && java %:r"
+    elseif &filetype == "c"
+        exec "!gcc -Wall -std=c11 -o %:r %:t && ./%:r"
+    elseif &filetype == "cpp"
+        exec "!g++ -Wall -std=c++11 -o %:r %:t && ./%:r"
+    elseif &filetype == "go"
+        exec "!go build %:t && ./%:r"
+    elseif &filetype == "sh"
+        exec "!bash %:t"
+    elseif &filetype == "lua"
+        exec "!lua %:t"
+    elseif &filetype == "perl"
+        exec "!perl %:t"
+    elseif &filetype == "php"
+        exec "!php %:t"
+    elseif &filetype == "python"
+        exec "!python %:t"
+    elseif &filetype == "ruby"
+        exec "!ruby %:t"
+    elseif &filetype == "html"
+        if g:osName == "linux"
+            exec "!gnome-open %  > /dev/null 2>&1"
+        elseif g:osName == "mac"
+            exec "!open % > /dev/null 2>&1&"
         endif
-        call feedkeys('\<CR>')
-    elseif &filetype == 'markdown'
-        if g:osName == 'linux'
-            exec '!markdown % > %.html && gnome-open %.html  > /dev/null 2>&1'
-        elseif g:osName == 'mac'
-            exec '!markdown % > %.html && open %.html  > /dev/null 2>&1'
+        call feedkeys("\<CR>")
+    elseif &filetype == "markdown"
+        if g:osName == "linux"
+            exec "!markdown % > %.html && gnome-open %.html  > /dev/null 2>&1"
+        elseif g:osName == "mac"
+            exec "!markdown % > %.html && open %.html  > /dev/null 2>&1"
         endif
-        call feedkeys('\<CR>')
+        call feedkeys("\<CR>")
     endif
 endfunction
 
 "--> 图形界面配置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-if has('gui_running')
+if has("gui_running")
     set guioptions-=m " 隐藏菜单栏
     set guioptions-=T " 隐藏工具栏
     set guioptions-=L " 隐藏左侧滚动条
     set guioptions-=r " 隐藏右侧滚动条
     set guioptions-=b " 隐藏底部滚动条
 
-    if has('gui_macvim')
+    if has("gui_macvim")
         set imdisable " Set input method off
         set autochdir " 自动切换到文件当前目录
     endif
@@ -260,10 +248,10 @@ else
 endif
 
 " 字体设置
-if exists('&guifont')
-    if g:osName == 'linux'
+if exists("&guifont")
+    if g:osName == "linux"
         set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
-    elseif g:osName == 'mac' 
+    elseif g:osName == "mac" 
         set guifont=Source_Code_Pro_for_Powerline:h14
     end
 endif

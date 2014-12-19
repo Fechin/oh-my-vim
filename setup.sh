@@ -1,5 +1,5 @@
-#! /bin/sh
-#
+#!/usr/bin/env bash
+
 # setup.sh [vim]
 #     参数：启动vim的命令，默认为“vim”
 # Copyright (C) 2014 Fechin <lihuoqingfly@163.com>
@@ -22,12 +22,12 @@ VIM_COMMAND=${1:-vim}
 # 插件目录,跟vimrc中的保持一致
 PLUG_DIR=${HOME}/.vim/plugged
 
+echo -e "-----------------------------------------------------------"
+echo -e "---\t视网络情况，安装过程可能比较漫长，请耐心等待!\t---"
+echo -e "-----------------------------------------------------------\v"
+echo -e "将为你安装依赖包："
 dependsmsg() {
-    echo -e "-----------------------------------------------------------"
-    echo -e "---\t视网络情况，安装过程可能比较漫长，请耐心等待!\t---"
-    echo -e "-----------------------------------------------------------"
-    echo -e "将为你安装依赖包："
-    echo -e "-----------------------------\t----------------------------"
+    echo -e "-----------------------------\t---------------------------"
     echo -e "\t[*] build-essential\tDetails of package information"
     echo -e "\t[*] cmake          \tCross-Platform Makefile Generator"
     echo -e "\t[*] python-dev     \tDevelopment tools for building Python modules"
@@ -35,13 +35,13 @@ dependsmsg() {
     echo -e "\t[*] npm            \tNode package manager"
     echo -e "\t[*] markdown       \tConvert text to HTML"
     echo -e "\t[*] git            \tPerl interface to the Git version control system"
-    echo -e "\t[*] easy_install   \tManage Python packages"
+    echo -e "\t[*] easy_install   \tManage Python packages\v"
 };dependsmsg
 
 notify() {
     echo -e "\e[30;48;5;82m Message: \e[0m \e[40;38;5;82m $1 \e[0m "
     if hash notify-send 2>/dev/null; then
-        notify-send -i "notification-message-im" "ohmyvim message" "$1"
+        notify-send -i "notification-message-im" "Oh-my-vim 提示" "$1"
     fi
 }
 
@@ -63,7 +63,7 @@ JSHINT=/usr/local/bin/jshint
 hash jshint 2>/dev/null || {
     sudo npm install jshint -g
     if [ -e $JSHINT ]; then
-        sed -i '/env /s/node$/nodejs/g' $JSHINT
+        sed -i "/env /s/node$/nodejs/g" $JSHINT
     fi
 }
 
@@ -72,7 +72,7 @@ PLUGINSTALL="PlugInstall"
 if hash ${VIM_COMMAND} 2>/dev/null; then
     ${VIM_COMMAND} -c "PlugUpgrade" -c "${PLUGINSTALL}"  -c "q" -c "q"
 else
-    notify "command not found: ${VIM_COMMAND}"
+    notify "没找到命令: ${VIM_COMMAND},请检查参数"
     exit 1
 fi
 
@@ -80,8 +80,12 @@ fi
 if [ $? -eq 0 ]; then
     while true; do
         ps -ef | grep -v grep | grep -v "setup.sh" | grep "${PLUGINSTALL}" > /dev/null || break
-        echo -e ">\c"
-        sleep 3
+        echo -ne "正在安装插件:[>>>>>                  ]\r"
+        sleep 0.5
+        echo -ne "正在安装插件:[>>>>>>>>>>>>>          ]\r"
+        sleep 0.5
+        echo -ne "正在安装插件:[>>>>>>>>>>>>>>>>>>>>>>>]\r"
+        sleep 0.5
     done
 else
     notify "command [${VIM_COMMAND}] exception!"
@@ -97,9 +101,10 @@ if [ -d "${PLUG_DIR}/YouCompleteMe/" ]; then
     fi
 
     cd ${PLUG_DIR}/YouCompleteMe
-    ./install.sh --clang-completer
+    ./install.sh
+    #./install.sh --clang-completer
 else
-    notify "YouCompleteMe install error，link：https://github.com/Valloric/YouCompleteMe"
+    notify "YouCompleteMe 安装失败，请尝试重新执行 install.sh"
     exit 1
 fi
-notify "Success to install oh-my-vim，never stop the beat, enjoy it please!"
+notify "Successfully，Never stop the beat, Enjoy it please!"
