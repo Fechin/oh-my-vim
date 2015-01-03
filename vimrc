@@ -189,6 +189,10 @@ imap <leader>w <esc>:w!<cr>
 inoremap <leader><TAB> <C-x><C-o>
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
 
+
+nnoremap <space> za 
+vnoremap <space> zf
+
 "--> 按F5编译运行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 function! CompileAndRun()
