@@ -107,4 +107,4 @@ else
     notify "YouCompleteMe 安装失败，请尝试重新执行 install.sh"
     exit 1
 fi
-notify "Successfully，Never stop the beat, Enjoy it please!"
+notify "Successfully，Never stop the beat, Enjoy it please :-)"
