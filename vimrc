@@ -15,6 +15,11 @@ if has("unix")
     let g:osName = !v:shell_error ? g:osDictionary[s:uname] : ""
 endif
 
+"--> vim-template
+"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+let g:username     = "Fechin"
+let g:email        = "lihuoqingfly@163.com"
+
 "--> 基本设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 syntax enable                   " 打开语法高亮
@@ -35,7 +40,6 @@ set shortmess=atI               " 不显示乌干达儿童捐助提示
 set nowrapscan                  " 搜索到文件两端时不重新搜索
 set hidden                      " 有未保存的更改时可以切换缓冲区
 set laststatus=2                " 开启状态栏信息
-set cmdheight=1                 " 命令行栏的高度
 set nobackup                    " 不生成备份文件
 set noswapfile                  " 不生成交换文件
 set expandtab                   " 将Tab转换成空格[需输入真正的tab时，使用Ctrl+V, Tab]
@@ -44,10 +48,11 @@ set showcmd                     " 显示命令
 set noerrorbells                " 关闭提示音
 set wildmenu                    " 在状态栏显示匹配命令
 set iskeyword+=_,$,@,%,#,-      " 关键字不换行
-let g:rehash256 = 1             " 配色高亮
 set t_Co=256                    " 开启终端256色
+set number                      " 显示行号
+set cursorline                  " 高亮当前行
+let g:rehash256 = 1             " 配色高亮
 colorscheme molokai             " 指定配色方案
-
 " 设置文件编码和文件格式
 set encoding      =utf-8
 set termencoding  =utf-8
@@ -142,11 +147,6 @@ let g:syntastic_warning_symbol           = "⚠"
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-
-"--> vim-template
-"￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-let g:username     = "Fechin"
-let g:email        = "lihuoqingfly@163.com"
 
 "--> NERDTree
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
