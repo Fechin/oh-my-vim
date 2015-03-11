@@ -260,7 +260,7 @@ if exists("&guifont")
     end
 endif
 
-"--> Vundle 插件管理
+"--> VIM-PLUG插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 call plug#begin('~/.vim/plugged')
 
@@ -294,6 +294,8 @@ Plug 'Yggdroot/indentLine'
 Plug 'junegunn/vim-easy-align'
 " 代码注释
 Plug 'tomtom/tcomment_vim'
+" 华丽的代码截图Web版
+Plug 'mattr555/vim-instacode'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
