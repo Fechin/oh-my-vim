@@ -263,6 +263,7 @@ endif
 "--> VIM-PLUG插件管理
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 call plug#begin('~/.vim/plugged')
+let g:plug_window='topleft' 
 
 " 状态栏 
 Plug 'bling/vim-airline'
