@@ -2,7 +2,7 @@
 "
 " Date   : 2014-07-09
 " Author : Fechin
-" E-mail : lihuoqingfly@163.com
+" E-mail : mr.fechin@gmail.com
 " URL    : https://github.com/Fechin/oh-my-vim.git
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 
@@ -18,7 +18,7 @@ endif
 "--> vim-template
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
 let g:username     = "Fechin"
-let g:email        = "lihuoqingfly@163.com"
+let g:email        = "mr.fechin@gmail.com"
 
 "--> 基本设置
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣

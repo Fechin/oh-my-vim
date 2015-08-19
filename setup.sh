@@ -2,7 +2,7 @@
 
 # setup.sh [vim]
 #     参数：启动vim的命令，默认为“vim”
-# Copyright (C) 2014 Fechin <lihuoqingfly@163.com>
+# Copyright (C) 2014 Fechin <mr.fechin@gmail.com>
 #
 # Distributed under terms of the MIT license.
 
