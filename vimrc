@@ -114,6 +114,17 @@ autocmd BufNewFile,BufRead *.snippets setf snippets
 " 自动调用 UltiSnipsAddFileTypes filetype
 autocmd FileType * call UltiSnips#FileTypeChanged()
 autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<CR>"
+augroup Filetype_Specific
+    autocmd FileType javascript nnoremap <buffer> <leader>j :call JsBeautify()<CR>
+    autocmd FileType html nnoremap <buffer> <leader>j :call HtmlBeautify()<CR>
+    autocmd FileType css nnoremap <buffer> <leader>j :call CSSBeautify()<CR>
+    autocmd FileType json nnoremap <buffer> <leader>j :call JsonBeautify()<CR>
+    autocmd FileType javascript vnoremap <buffer>  <leader>j :call RangeJsBeautify()<cr>
+    autocmd FileType html vnoremap <buffer> <leader>j :call RangeHtmlBeautify()<cr>
+    autocmd FileType css vnoremap <buffer> <leader>j :call RangeCSSBeautify()<cr>
+    autocmd FileType json vnoremap <buffer> <leader>j :call RangeCSSBeautify()<cr>
+augroup END
+
 
 "--> 自动执行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -194,12 +205,16 @@ nnoremap <leader>p :set invpaste paste?<CR>
 " ,m/,M 切换Buffer
 nnoremap <leader>m :bNext<CR>
 nnoremap <leader>M :bprevious<CR>
-" ,a 全选
-nnoremap <Leader>a ggVG"
-
 " J/K 移动选中内容
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+" 缩进时依然选中
+vnoremap < <gv
+vnoremap > >gv
+" ,a 全选
+nnoremap <Leader>a ggVG
+" ,j 格式化JSON
+nnoremap <leader>j :call JsBeautify()<CR>
 
 map <silent> tn :tabnext<CR>
 map <silent> tp :tabprevious<CR>
@@ -319,6 +334,10 @@ Plug 'tomtom/tcomment_vim'
 Plug 'mattr555/vim-instacode'
 " 神级跳转
 Plug 'easymotion/vim-easymotion'
+" 优雅的光标
+Plug 'terryma/vim-multiple-cursors'
+" 优雅的格式化
+Plug 'maksimr/vim-jsbeautify'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
