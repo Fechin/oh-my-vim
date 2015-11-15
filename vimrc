@@ -113,7 +113,7 @@ endfunction
 autocmd BufNewFile,BufRead *.snippets setf snippets
 " 自动调用 UltiSnipsAddFileTypes filetype
 autocmd FileType * call UltiSnips#FileTypeChanged()
-autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<CR>"
 
 "--> 自动执行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -176,22 +176,42 @@ map <C-k> <C-W>k            " 窗口切换下
 map <C-h> <C-W>h            " 窗口切换左
 map <C-l> <C-W>l            " 窗口切换右
 
-map <silent>        tn :tabnext<CR>
-map <silent>        tp :tabprevious<CR>
+" ,w 保存
+nnoremap <leader>w :w!<CR>
+inoremap <leader>w <esc>:w!<CR>
+" ,W
+nnoremap <leader>W :w !sudo tee > /dev/null %<CR>
+inoremap <leader>W :w !sudo tee > /dev/null %<CR>
+" ,r 运行
+nnoremap <leader>r :call CompileAndRun()<CR>
+inoremap <leader>r <esc>:call CompileAndRun()<CR>
+" ,e 文件浏览器
+nnoremap <leader>e :NERDTreeToggle<CR>
+" ,s 使vimrc生效 
+nnoremap <leader>ss :source ~/.vim/vimrc<CR>
+" ,p 切换粘贴模式
+nnoremap <leader>p :set invpaste paste?<CR>
+" ,m/,M 切换Buffer
+nnoremap <leader>m :bNext<CR>
+nnoremap <leader>M :bprevious<CR>
+" ,a 全选
+nnoremap <Leader>a ggVG"
 
-map <F5> :call CompileAndRun()<CR>
-set pastetoggle=<F6>         " 切换粘贴模式
-nnoremap <F7> :YcmForceCompileAndDiagnostics<CR>
-nnoremap <F8> :NERDTreeToggle<CR>
+" J/K 移动选中内容
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
-nmap <leader>w :w!<cr>
-imap <leader>w <esc>:w!<cr>
+map <silent> tn :tabnext<CR>
+map <silent> tp :tabprevious<CR>
+
+nnoremap <F5> :call CompileAndRun()<CR>
 inoremap <leader><TAB> <C-x><C-o>
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   " 按,jd 会跳转到定义
 
-
-nnoremap <space> za 
-vnoremap <space> zf
+if has('macunix')
+    " pbcopy for OSX copy/paste
+    vnoremap <C-x> :!pbcopy<CR>
+    vnoremap <C-c> :w !pbcopy<CR><CR>
+endif
 
 "--> 按F5编译运行
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
@@ -297,6 +317,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tomtom/tcomment_vim'
 " 华丽的代码截图Web版
 Plug 'mattr555/vim-instacode'
+" 神级跳转
+Plug 'easymotion/vim-easymotion'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
