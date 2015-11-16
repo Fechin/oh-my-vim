@@ -213,8 +213,6 @@ vnoremap < <gv
 vnoremap > >gv
 " ,a 全选
 nnoremap <Leader>a ggVG
-" ,j 格式化JSON
-nnoremap <leader>j :call JsBeautify()<CR>
 
 map <silent> tn :tabnext<CR>
 map <silent> tp :tabprevious<CR>
@@ -338,6 +336,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'terryma/vim-multiple-cursors'
 " 优雅的格式化
 Plug 'maksimr/vim-jsbeautify'
+" 优雅的Git管理
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 "￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
