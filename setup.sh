@@ -32,7 +32,7 @@ dependsmsg() {
     echo -e "\t[*] cmake          \tCross-Platform Makefile Generator"
     echo -e "\t[*] python-dev     \tDevelopment tools for building Python modules"
     echo -e "\t[*] pyflakes       \tSimple Python 2 source checker"
-    echo -e "\t[*] npm            \tNode package manager"
+    echo -e "\t[*] node.js        \tEvent-driven I/O server-side JavaScript environment based on V8."
     echo -e "\t[*] markdown       \tConvert text to HTML"
     echo -e "\t[*] git            \tPerl interface to the Git version control system"
     echo -e "\t[*] easy_install   \tManage Python packages\v"
@@ -47,15 +47,15 @@ notify() {
 
 # Linux 系统安装
 if hash apt-get 2>/dev/null; then
-    sudo apt-get install -y build-essential cmake python-dev pyflakes npm markdown git
+    sudo apt-get install -y build-essential cmake python-dev pyflakes node markdown git
 elif hash yum 2>/dev/null; then
-    sudo yum install -y build-essential cmake python-dev pyflakes npm markdown git
+    sudo yum install -y build-essential cmake python-dev pyflakes node markdown git
 fi
 
 # Mac 系统安装
 if hash brew 2>/dev/null; then
     sudo easy_install pyflakes
-    brew install cmake npm markdown
+    brew install cmake node markdown
 fi
 
 # 安装JS语法检查工具
