@@ -96,8 +96,7 @@ fi
 if [ -d "${PLUG_DIR}/YouCompleteMe/" ]; then
     YCM_DIR=${PLUG_DIR}/YouCompleteMe/third_party/ycmd
     if [ ! -e "${YCM_DIR}/build.sh" ]; then
-        cd ${YCM_DIR}
-        git submodule update --init --recursive
+        cd ${YCM_DIR} && git submodule update --init --recursive
     fi
 
     cd ${PLUG_DIR}/YouCompleteMe
