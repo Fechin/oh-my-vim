@@ -112,7 +112,7 @@ function! g:UltiSnips_Complete()
 endfunction
 autocmd BufNewFile,BufRead *.snippets setf snippets
 " 自动调用 UltiSnipsAddFileTypes filetype
-autocmd FileType * call UltiSnips#FileTypeChanged()
+" autocmd FileType * call UltiSnips#FileTypeChanged()
 autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<CR>"
 augroup Filetype_Specific
     autocmd FileType javascript nnoremap <buffer> <leader>j :call JsBeautify()<CR>
@@ -299,7 +299,8 @@ call plug#begin('~/.vim/plugged')
 let g:plug_window='topleft' 
 
 " 状态栏 
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " 文件目录树
 Plug 'vim-scripts/The-NERD-tree'
 " HTML/CSS代码快速生成
