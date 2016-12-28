@@ -53,7 +53,8 @@ map <silent> tp :tabprevious<CR>
 ---
 ```
 " 状态栏 
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " 文件目录树
 Plug 'vim-scripts/The-NERD-tree'
 " HTML/CSS代码快速生成
@@ -86,4 +87,10 @@ Plug 'tomtom/tcomment_vim'
 Plug 'mattr555/vim-instacode'
 " 神级跳转
 Plug 'easymotion/vim-easymotion'
+" 优雅的光标
+Plug 'terryma/vim-multiple-cursors'
+" 优雅的格式化
+Plug 'maksimr/vim-jsbeautify'
+" 优雅的Git管理
+Plug 'tpope/vim-fugitive'
 ```
