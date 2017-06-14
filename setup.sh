@@ -63,7 +63,8 @@ JSHINT=/usr/local/bin/jshint
 hash jshint 2>/dev/null || {
     sudo npm install jshint -g
     if [ -e $JSHINT ]; then
-        sed -i "/env /s/node$/nodejs/g" $JSHINT
+        echo ''
+#        sed -i "/env /s/node$/nodejs/g" $JSHINT
     fi
 }
 
