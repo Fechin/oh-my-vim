@@ -186,6 +186,9 @@ map <C-j> <C-W>j            " 窗口切换下
 map <C-k> <C-W>k            " 窗口切换下
 map <C-h> <C-W>h            " 窗口切换左
 map <C-l> <C-W>l            " 窗口切换右
+map <leader>pj :%!python -m json.tool<CR>               " 格式化JSON
+map <leader>px :%!xmllint % --encode UTF-8 --format<CR> " 格式化XMl
+map <leader>ps :%!sqlformat % -r -k upper -i lower --encoding UTF-8<CR>  " 格式化SQL
 
 " ,w 保存
 nnoremap <leader>w :w!<CR>

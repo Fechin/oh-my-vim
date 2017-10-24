@@ -47,15 +47,15 @@ notify() {
 
 # Linux 系统安装
 if hash apt-get 2>/dev/null; then
-    sudo apt-get install -y build-essential cmake python-dev pyflakes node npm markdown git
+    sudo apt-get install -y build-essential cmake python-dev pyflakes node npm markdown git xmllint
 elif hash yum 2>/dev/null; then
-    sudo yum install -y build-essential cmake python-dev pyflakes node markdown git
+    sudo yum install -y build-essential cmake python-dev pyflakes node markdown git xmllint
 fi
 
 # Mac 系统安装
 if hash brew 2>/dev/null; then
     sudo easy_install pyflakes
-    brew install cmake node markdown
+    brew install cmake node markdown xmllint
 fi
 
 # 安装JS语法检查工具
