@@ -190,6 +190,9 @@ map <leader>pj :%!python -m json.tool<CR>               " 格式化JSON
 map <leader>px :%!xmllint % --encode UTF-8 --format<CR> " 格式化XMl
 map <leader>ps :%!sqlformat % -r -k upper -i lower --encoding UTF-8<CR>  " 格式化SQL
 
+" ,q 退出
+nnoremap <leader>q :qa!<CR>
+inoremap <leader>q <esc>:qa!<CR>
 " ,w 保存
 nnoremap <leader>w :w!<CR>
 inoremap <leader>w <esc>:w!<CR>
