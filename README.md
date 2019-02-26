@@ -1,6 +1,6 @@
 vim
 ===
-vim 配置，私人订制，完善中。。。
+vim 配置，私人订制，停止更新， 已转spaceVim
 
 ### 说明
 兼容Linux、Mac
